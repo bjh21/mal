@@ -12,14 +12,20 @@
       false)
     false)))
 
+; Some hoisted functions are not required to be defined by the outer mal.
+; This wrapper ensures that such an absence only causes a problem if the
+; optional function is actually called.
+(defmacro! wrapfn (fn* [f]
+  `(fn* [& args] (apply ~f args))))
+
 (def! core_ns
   [["=" =]
    ["throw" throw]
    ["nil?" nil?]
    ["true?" true?]
    ["false?" false?]
-   ["number?" number?]
-   ["string?" string?]
+   ["number?" (wrapfn number?)]
+   ["string?" (wrapfn string?)]
    ["symbol" symbol]
    ["symbol?" symbol?]
    ["keyword" keyword]
@@ -42,7 +48,7 @@
    ["-" -]
    ["*" *]
    ["/" /]
-   ["time-ms" time-ms]
+   ["time-ms" (wrapfn time-ms)]
 
    ["list" list]
    ["list?" list?]
@@ -68,8 +74,8 @@
    ["apply" apply]
    ["map" map]
 
-   ["conj" conj]
-   ["seq" seq]
+   ["conj" (wrapfn conj)]
+   ["seq" (wrapfn seq)]
 
    ["with-meta" with-meta]
    ["meta" meta]
