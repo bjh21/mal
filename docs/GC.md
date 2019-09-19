@@ -21,7 +21,7 @@ instance if you represent `nil` as a null pointer.  Environments are
 also mal objects, because they need to take part in the
 garbage-collection process.
 
-Add a flag to each mal object called `gc_mark`.  The
+Add a flag to each mal object called `gc_marked`.  The
 "mark" phase of the garbage collector will set this to indicate that
 an object is reachable.  The "sweep" phase will clear it again and
 free those objects that have it clear already.
@@ -31,7 +31,7 @@ to this list when it's created.  The "sweep" phase will use this to
 find objects to free.
 
 Implement a function, `gc_mark`, in `types`, that takes a mal object
-or environment as an argument.  If the `gc_mark` flag is set on that
+or environment as an argument.  If the `gc_marked` flag is set on that
 object or environment, it should return immediately.  If it is clear,
 the function should set the flag and then call `gc_mark` recursively
 on every object or environment referenced by this one.
