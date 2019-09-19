@@ -14,10 +14,17 @@ This restriction means it's not necessary to keep track of every
 variable that might hold a mal value, but only those that might be
 holding one at the point when the garbage collector is allowed to run.
 
-Add a flag to each mal object and environment called `gc_mark`.  The
+First, a bit of terminology.  A _mal object_ is any host-language
+object that you've allocated to hold a mal value (or part of one).  It
+doesn't include mal values that you didn't need to allocate, for
+instance if you represent `nil` as a null pointer.  Environments are
+also mal objects, because they need to take part in the
+garbage-collection process.
+
+Add a flag to each mal object called `gc_mark`.  The
 "mark" phase of the garbage collector will set this to indicate that
 an object is reachable.  The "sweep" phase will clear it again and
-free those object that have it clear already.
+free those objects that have it clear already.
 
 Create a global list or array of mal objects, and add each mal object
 to this list when it's created.  The "sweep" phase will use this to
@@ -30,7 +37,7 @@ the function should set the flag and then call `gc_mark` recursively
 on every object or environment referenced by this one.
 
 Now you need to add a data structure (a list or array) called
-`gc_roots` to hold all the mall objects and environments that are
+`gc_roots` to hold all the mal objects that are
 directly accessible to the mal program.  This will form a stack, with
 entries being added and removed as the mal program executes.  In
 general, `gc_roots` should be in the same state on exit from an
@@ -103,8 +110,8 @@ making sure that `ast` and `env` are in `gc_roots`, put in a call to
 interpreter to stop leaking memory.
 
 Running the garbage collector on every call to `EVAL` is hugely
-inefficient.  It's better to only call it occasionally.  A better
-approach is to keep track of how much memory (or how many objects) are
+inefficient.  It's better to only call it occasionally.  A reasonable
+approach is to keep track of how much memory (or how many mal objects) are
 currently allocated and how many were left after the last
 garbage-collection run.  When the current allocations are more than
 twice what they were at the end of the last run, it's probably a good
