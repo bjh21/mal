@@ -41,10 +41,14 @@ Now you need to add a data structure (a list or array) called
 directly accessible to the mal program.  This will form a stack, with
 entries being added and removed as the mal program executes.  In
 general, `gc_roots` should be in the same state on exit from an
-interpreter function as it was on entry. Because the garbage collector
-will only be called at the start of `EVAL`, only values that can
-survive until the next `EVAL` need to be considered.  
+interpreter function as it was on entry.  The same mal object can
+appear in `gc_roots` multiple times, so it will need to use some
+storage separate from the objects themselves.  Making it a linked
+list on the stack is one fairly simple approach.
 
+Because the garbage collector will only be called at the start of
+`EVAL`, only values that can survive until the next `EVAL` need to be
+added to `gc_roots`.
 To ensure that we consider all relevant code paths, we'll start at
 `EVAL` and trace all paths that might reach `EVAL` again.  In many of
 these, the arguments to `EVAL` (`ast` and `env`) will be referenced,
