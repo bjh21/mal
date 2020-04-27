@@ -21,10 +21,27 @@ instance if you represent `nil` as a null pointer.  Environments are
 also mal objects, because they need to take part in the
 garbage-collection process.
 
-TODO: restructure in terms of steps:
+This guide prceeds in parallel with the main guide.  The steps here
+are generally deferrable, but an implementation without
+garbage-collection will probably not pass the tests for step 5.
 
-step 1: Add global object list, simple `gc_sweep` that frees
-everything, called from main loop.
+#### Step 1
+
+In this step, the garbage-collector can be very simple: it will just
+free every allocated object in each iteration of the main loop.
+
+Create a global list of mal objects, and add each mal object
+to this list when it's created.  This can be a simple single-linked
+list: items will only be removed while we're iterating over the list.
+
+Add a new function to types.qx called `gc_sweep`.  It should have no
+parameters, and should simply walk over the global object list,
+removing each object from the list and freeing it.
+
+Put a call to `gc_sweep` into the main loop, so that it will get
+called after each call to `rep`.
+
+TODO: restructure in terms of steps:
 
 step 3: Add `gc_marked` flag and `gc_mark` function.  Call
 `gc_mark(repl_env)` from main loop, update `gc_sweep` to check
@@ -39,10 +56,6 @@ Add a flag to each mal object called `gc_marked`.  The
 "mark" phase of the garbage collector will set this to indicate that
 an object is reachable.  The "sweep" phase will clear it again and
 free those objects that have it clear already.
-
-Create a global list or array of mal objects, and add each mal object
-to this list when it's created.  The "sweep" phase will use this to
-find objects to free.
 
 Implement a function, `gc_mark`, in `types`, that takes a mal object
 or environment as an argument.  If the `gc_marked` flag is set on that
