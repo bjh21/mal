@@ -43,6 +43,9 @@ called after each call to `rep`.
 
 TODO: restructure in terms of steps:
 
+step 2: Somehow protect `repl_env` from GC.  Flush object list?
+Implement `gc_mark` here?
+
 step 3: Add `gc_marked` flag and `gc_mark` function.  Call
 `gc_mark(repl_env)` from main loop, update `gc_sweep` to check
 and clear `gc_marked`.
