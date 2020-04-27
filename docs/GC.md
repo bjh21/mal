@@ -21,6 +21,20 @@ instance if you represent `nil` as a null pointer.  Environments are
 also mal objects, because they need to take part in the
 garbage-collection process.
 
+TODO: restructure in terms of steps:
+
+step 1: Add global object list, simple `gc_sweep` that frees
+everything, called from main loop.
+
+step 3: Add `gc_marked` flag and `gc_mark` function.  Call
+`gc_mark(repl_env)` from main loop, update `gc_sweep` to check
+and clear `gc_marked`.
+
+step 4: Move GC calls to `EVAL`, add `gc_roots`.
+
+later steps: Make sure that `gc_roots` is properly handled in new
+features.
+
 Add a flag to each mal object called `gc_marked`.  The
 "mark" phase of the garbage collector will set this to indicate that
 an object is reachable.  The "sweep" phase will clear it again and
