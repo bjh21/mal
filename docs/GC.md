@@ -17,7 +17,8 @@ holding one at the point when the garbage collector is allowed to run.
 First, a bit of terminology.  A _mal object_ is any host-language
 object that you've allocated to hold a mal value (or part of one).  It
 doesn't include mal values that you didn't need to allocate, for
-instance if you represent `nil` as a null pointer.  Environments are
+instance if you represent `nil` as a null pointer.  Environments
+(introduced in step 3) are
 also mal objects, because they need to take part in the
 garbage-collection process.
 
@@ -34,37 +35,45 @@ Create a global list of mal objects, and add each mal object
 to this list when it's created.  This can be a simple single-linked
 list: items will only be removed while we're iterating over the list.
 
-Add a new function to types.qx called `gc_sweep`.  It should have no
+Add a new function to `types.qx` called `gc_sweep`.  It should have no
 parameters, and should simply walk over the global object list,
 removing each object from the list and freeing it.
 
 Put a call to `gc_sweep` into the main loop, so that it will get
 called after each call to `rep`.
 
+#### Step 2
+
+There are now some mal objects that need to survive a garbage
+collection, namely `repl_env` and its contents.  This will require you
+to implement most of the rest of the garbage collector.
+
+Add a flag to each mal object called `gc_marked`.  A newly-created
+object should have this flag clear.
+
+Implement a function, `gc_mark`, in `types.qx`, that takes a mal object
+as an argument.  If the `gc_marked` flag is set on that
+object, it should return immediately.  If it is clear,
+the function should set the flag and then call `gc_mark` recursively
+on every object referenced by this one.
+
+Modify `gc_sweep` so that instead of freeing every object, it only
+frees (and removes from the object list) those that have `gc_marked`
+clear.  Where it finds an object with `gc_marked` set, it should clear
+the flag and otherwise leave it alone.
+
+Before the call to `gc_sweep` in the main loop, add a call to
+`gc_mark`, passing in `repl_env` as its argument.  This will ensure
+that objects referenced from it are not freed.
+
 TODO: restructure in terms of steps:
 
-step 2: Somehow protect `repl_env` from GC.  Flush object list?
-Implement `gc_mark` here?
-
-step 3: Add `gc_marked` flag and `gc_mark` function.  Call
-`gc_mark(repl_env)` from main loop, update `gc_sweep` to check
-and clear `gc_marked`.
+step 3: Extend `gc_mark` to support environments.
 
 step 4: Move GC calls to `EVAL`, add `gc_roots`.
 
 later steps: Make sure that `gc_roots` is properly handled in new
 features.
-
-Add a flag to each mal object called `gc_marked`.  The
-"mark" phase of the garbage collector will set this to indicate that
-an object is reachable.  The "sweep" phase will clear it again and
-free those objects that have it clear already.
-
-Implement a function, `gc_mark`, in `types`, that takes a mal object
-or environment as an argument.  If the `gc_marked` flag is set on that
-object or environment, it should return immediately.  If it is clear,
-the function should set the flag and then call `gc_mark` recursively
-on every object or environment referenced by this one.
 
 Now you need to add a data structure (a list or array) called
 `gc_roots` to hold all the mal objects that are
