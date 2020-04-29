@@ -66,9 +66,15 @@ Before the call to `gc_sweep` in the main loop, add a call to
 `gc_mark`, passing in `repl_env` as its argument.  This will ensure
 that objects referenced from it are not freed.
 
-TODO: restructure in terms of steps:
+#### Step 3
 
-step 3: Extend `gc_mark` to support environments.
+Step 3 introduces environments, so `gc_mark` needs to be extended to
+support them.  At this point the garbage-collector starts to be
+properly useful: if you instument it you should be able to see it
+keeping objects while they're referenced by `repl_env` and freeing
+them when they're removed.
+
+TODO: restructure in terms of steps:
 
 step 4: Move GC calls to `EVAL`, add `gc_roots`.
 
