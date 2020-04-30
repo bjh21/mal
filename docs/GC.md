@@ -74,9 +74,28 @@ properly useful: if you instument it you should be able to see it
 keeping objects while they're referenced by `repl_env` and freeing
 them when they're removed.
 
+#### Step 4
+
+Now things get interesting.  In the earlier steps, the amount of
+memory that could be allocated in a single pass through the REPL was
+quite limited, but with the ability to define functions comes the
+ability to do an arbitrary amount of computation, and hence
+allocation, in a single expression.  Thus, you need to move the call to
+the garbage collector out of the main loop.  Instead, you will put it
+at the start of `EVAL`, which is the heart of your LISP interpreter.
+
+Moving the garbage collector into `EVAL` means that you need to start
+being a lot more careful about what can be accessed by the program,
+and hence what needs to be passed to `gc_mark`.
+
+First though, now that functions can be defined in mal, you need to
+ensure that `gc_mark` correctly handles a function, marking the
+parameter list, function body, and environment.  This will probably
+preclude using a native closure to represent a function.
+
 TODO: restructure in terms of steps:
 
-step 4: Move GC calls to `EVAL`, add `gc_roots`.
+step 4: add `gc_roots`.
 
 later steps: Make sure that `gc_roots` is properly handled in new
 features.
