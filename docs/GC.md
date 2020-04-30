@@ -93,22 +93,25 @@ ensure that `gc_mark` correctly handles a function, marking the
 parameter list, function body, and environment.  This will probably
 preclude using a native closure to represent a function.
 
+Now for the tricky bit.  Obviously at the start of `EVAL`, its two
+arguments (`ast` and `env`) will need to be passed to `gc_mark`, but
+it's also necessary to mark all the values that might be accessed by
+functions that have been called on the way to this invocation of
+`EVAL`.  To do this, you'll arrange to maintain a stack of mal objects
+that are still accessible.
+
+Add a third parameter to both `EVAL` and `eval_ast`.  Call it
+`gc_root`.  Where `rep` calls `EVAL`, it should pass `nil` in this
+position, since the only mal objects that are live at this point are
+the environment and the expression being evaluated, and those are in
+the other two arguments to `EVAL`.
+
 TODO: restructure in terms of steps:
 
 step 4: add `gc_roots`.
 
 later steps: Make sure that `gc_roots` is properly handled in new
 features.
-
-Now you need to add a data structure (a list or array) called
-`gc_roots` to hold all the mal objects that are
-directly accessible to the mal program.  This will form a stack, with
-entries being added and removed as the mal program executes.  In
-general, `gc_roots` should be in the same state on exit from an
-interpreter function as it was on entry.  The same mal object can
-appear in `gc_roots` multiple times, so it will need to use some
-storage separate from the objects themselves.  Making it a linked
-list on the stack is one fairly simple approach.
 
 Because the garbage collector will only be called at the start of
 `EVAL`, only values that can survive until the next `EVAL` need to be
