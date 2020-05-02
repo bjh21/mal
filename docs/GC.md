@@ -113,8 +113,8 @@ call `gc_mark` on `gc_inner_root` and then `gc_sweep`.  Between them,
 can use, while `gc_root` does the same for its callers, so this will
 only free objects that are no longer in use.
 
-Now you just need to ensure that every invocation of `EVAL` passes it
-a correct `gc_root`.  Where `EVAL` calls itself directly, passing
+Now you just need to ensure that every time `EVAL` is invoked, it
+gets a correct `gc_root`.  Where `EVAL` calls itself directly, passing
 `gc_inner_root` should work.  The only thing to worry about would be
 if `EVAL` creates anything itself, but that only applies to the new
 environment created by `let*`, and that environment is passed as
@@ -122,12 +122,10 @@ environment created by `let*`, and that environment is passed as
 
 Where `EVAL` calls `eval_ast`, have it pass `gc_inner_root` as the
 `gc_root` parameter.  When `eval_ast` calls back to `EVAL` it does so
-as part of constructing a new list, vector, or hashmap.  If the new
-object will be visible to `gc_sweep` at that time, you need to make
-sure that the `gc_root` passed to `EVAL` contains the new
-object.  This is probably best done by creating another
-`gc_inner_root` in `eval_ast` that contains its `gc_root` and the
-new object.  That `gc_inner_root` should then be passed back to `EVAL`.
+as part of constructing a new list, vector, or hashmap, and it usually
+does so more than once.  You need to ensure that when `eval_ast` calls
+`EVAL`, any partial results that it's already got are reachable from
+`gc_root`.
 
 TODO: restructure in terms of steps:
 
