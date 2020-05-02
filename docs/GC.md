@@ -106,6 +106,29 @@ position, since the only mal objects that are live at this point are
 the environment and the expression being evaluated, and those are in
 the other two arguments to `EVAL`.
 
+At the start of `EVAL`, construct a new list or vector containing the
+three arguments to `EVAL`.  Call this `gc_inner_root`.  Have `EVAL`
+call `gc_mark` on `gc_inner_root` and then `gc_sweep`.  Between them,
+`ast` and `env` reference everything that this invocation of `EVAL`
+can use, while `gc_root` does the same for its callers, so this will
+only free objects that are no longer in use.
+
+Now you just need to ensure that every invocation of `EVAL` passes it
+a correct `gc_root`.  Where `EVAL` calls itself directly, passing
+`gc_inner_root` should work.  The only thing to worry about would be
+if `EVAL` creates anything itself, but that only applies to the new
+environment created by `let*`, and that environment is passed as
+`env` to all the inner `EVAL` calls.
+
+Where `EVAL` calls `eval_ast`, have it pass `gc_inner_root` as the
+`gc_root` parameter.  When `eval_ast` calls back to `EVAL` it does so
+as part of constructing a new list, vector, or hashmap.  If the new
+object will be visible to `gc_sweep` at that time, you need to make
+sure that the `gc_root` passed to `EVAL` contains the new
+object.  This is probably best done by creating another
+`gc_inner_root` in `eval_ast` that contains its `gc_root` and the
+new object.  That `gc_inner_root` should then be passed back to `EVAL`.
+
 TODO: restructure in terms of steps:
 
 step 4: add `gc_roots`.
@@ -120,17 +143,6 @@ To ensure that we consider all relevant code paths, we'll start at
 `EVAL` and trace all paths that might reach `EVAL` again.  In many of
 these, the arguments to `EVAL` (`ast` and `env`) will be referenced,
 so those should be put into `gc_roots` for the duration of `EVAL`.
-
-The simplest way that `EVAL` can call `EVAL` is through `eval_ast`,
-introduced in step 2.  When evaluating elements of a list, vector, or
-hash-map, `eval_ast` needs to ensure that the list where evaluated
-items are accumulating is in `gc_roots`.
-
-In step 3, `def!` is introduced, but it doesn't directly allocate any
-objects and so can be ignored.  `let*` on the other hand allocates a
-new environment, so that needs to be preserved.  Happily every call to
-`EVAL` from within `let*` passes that as `env`, so it will naturally
-be preserved.
 
 Step 4 introduces `if`, which is unproblematic, and `fn*`, which is
 slightly less so.  `fn*` doesn't directly cause `EVAL` to invoke
