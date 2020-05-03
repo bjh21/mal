@@ -137,13 +137,23 @@ adding an extra argument to everything that can be applied to take
 The closure constructed by `fn*` should use it, though, and pass it
 through to `EVAL`.
 
+You now have a fully working garbage collector.  In the remaining
+steps it just needs minor adaptations to keep it working.
+
+#### Step 5
+
+Here, you replace tail-recursive calls to `EVAL` with jumps back to
+the start of the function.  In step 4, you passed `gc_inner_root` to
+these calls, but that was unnecessary.  Because those calls were it
+tail positions, the outer `EVAL` couldn't access any objects after the
+return from the inner `EVAL` so you could have passed `gc_root`
+instead.  Which conveniently is precisely what happens if you just
+leave `gc_root` alone over TCO.
+
 TODO: restructure in terms of steps:
 
 later steps: Make sure that `gc_roots` is properly handled in new
 features.
-
-When implementing tail call optimization, you will need to ensure that
-the `ast` and `env` in `gc_roots` are replaced when `EVAL` re-starts.
 
 Obviously, `eval`, introduced in step 6, is a way for `EVAL` to call
 `EVAL`, but it doesn't allocate anything so there's no work to do
