@@ -131,32 +131,16 @@ The final route by which `EVAL` gets called is when the closure
 produced by `fn*` calls it.  The value of `gc_root` here needs to be
 provided when the closure gets called rather than being captured by
 the closure, which in turn means that the "apply" part of `EVAL` needs
-to pass `gc_root` to any function that it invokes.  This is probably
-best done by inserting a new first argument to each function, ignoring
-it in the existing core functions, but passing it to `EVAL` from the
-`fn*` closure.
+to pass `gc_root` to any function that it invokes.  This will require
+adding an extra argument to everything that can be applied to take
+`gc_root`.  All the existing core functions can ignore this new argument.
+The closure constructed by `fn*` should use it, though, and pass it
+through to `EVAL`.
 
 TODO: restructure in terms of steps:
 
-step 4: add `gc_roots`.
-
 later steps: Make sure that `gc_roots` is properly handled in new
 features.
-
-Because the garbage collector will only be called at the start of
-`EVAL`, only values that can survive until the next `EVAL` need to be
-added to `gc_roots`.
-To ensure that we consider all relevant code paths, we'll start at
-`EVAL` and trace all paths that might reach `EVAL` again.  In many of
-these, the arguments to `EVAL` (`ast` and `env`) will be referenced,
-so those should be put into `gc_roots` for the duration of `EVAL`.
-
-Step 4 introduces `if`, which is unproblematic, and `fn*`, which is
-slightly less so.  `fn*` doesn't directly cause `EVAL` to invoke
-`EVAL`, but each closure that it creates allocates an environment and
-invoke `EVAL`, so some analysis is needed.  As with `let*`, though,
-that environment is passed to `EVAL`, so no other protection is
-needed.
 
 When implementing tail call optimization, you will need to ensure that
 the `ast` and `env` in `gc_roots` are replaced when `EVAL` re-starts.
