@@ -127,6 +127,15 @@ does so more than once.  You need to ensure that when `eval_ast` calls
 `EVAL`, any partial results that it's already got are reachable from
 `gc_root`.
 
+The final route by which `EVAL` gets called is when the closure
+produced by `fn*` calls it.  The value of `gc_root` here needs to be
+provided when the closure gets called rather than being captured by
+the closure, which in turn means that the "apply" part of `EVAL` needs
+to pass `gc_root` to any function that it invokes.  This is probably
+best done by inserting a new first argument to each function, ignoring
+it in the existing core functions, but passing it to `EVAL` from the
+`fn*` closure.
+
 TODO: restructure in terms of steps:
 
 step 4: add `gc_roots`.
