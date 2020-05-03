@@ -22,7 +22,7 @@ instance if you represent `nil` as a null pointer.  Environments
 also mal objects, because they need to take part in the
 garbage-collection process.
 
-This guide prceeds in parallel with the main guide.  The steps here
+This guide proceeds in parallel with the main guide.  The steps here
 are generally deferrable, but an implementation without
 garbage-collection will probably not pass the tests for step 5.
 
@@ -70,7 +70,7 @@ that objects referenced from it are not freed.
 
 Step 3 introduces environments, so `gc_mark` needs to be extended to
 support them.  At this point the garbage-collector starts to be
-properly useful: if you instument it you should be able to see it
+properly useful: if you instrument it you should be able to see it
 keeping objects while they're referenced by `repl_env` and freeing
 them when they're removed.
 
