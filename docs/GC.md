@@ -76,6 +76,12 @@ them when they're removed.
 
 #### Step 4
 
+The first thing to do here is fairly simple.  Now that functions
+can be defined in mal, you need to
+ensure that `gc_mark` correctly handles such a function, marking the
+parameter list, function body, and environment.  This will probably
+preclude using a native closure to represent a function.
+
 Now things get interesting.  In the earlier steps, the amount of
 memory that could be allocated in a single pass through the REPL was
 quite limited, but with the ability to define functions comes the
@@ -88,12 +94,7 @@ Moving the garbage collector into `EVAL` means that you need to start
 being a lot more careful about what can be accessed by the program,
 and hence what needs to be passed to `gc_mark`.
 
-First though, now that functions can be defined in mal, you need to
-ensure that `gc_mark` correctly handles a function, marking the
-parameter list, function body, and environment.  This will probably
-preclude using a native closure to represent a function.
-
-Now for the tricky bit.  Obviously at the start of `EVAL`, its two
+Obviously at the start of `EVAL`, its two
 arguments (`ast` and `env`) will need to be passed to `gc_mark`, but
 it's also necessary to mark all the values that might be accessed by
 functions that have been called on the way to this invocation of
