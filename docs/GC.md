@@ -39,8 +39,18 @@ Add a new function to `types.qx` called `gc_sweep`.  It should have no
 parameters, and should simply walk over the global object list,
 removing each object from the list and freeing it.
 
-Put a call to `gc_sweep` into the main loop, so that it will get
-called after each call to `rep`.
+Also in `types.qx`, create a function called `gc_mark`.  It should
+take one parameter and do nothing.  Create
+another function called simply `gc` that takes a single parameter and
+calls `gc_mark` with that parameter and then calls `gc_sweep`.  This
+is the stub of your garbage collector.
+
+Put a call to `gc` into the main loop, so that it will get
+called after each call to `rep`.  Pass it a `nil` argument.
+
+The resulting program now frees all the mal objects that it allocates
+in each loop, so it shouldn't leak memory any more.  You could
+temporarily instrument `gc_sweep` to check that this is happening.
 
 #### Step 2
 
@@ -51,9 +61,10 @@ to implement most of the rest of the garbage collector.
 Add a flag to each mal object called `gc_marked`.  A newly-created
 object should have this flag clear.
 
-Implement a function, `gc_mark`, in `types.qx`, that takes a mal object
-as an argument.  If the `gc_marked` flag is set on that
-object, it should return immediately.  If it is clear,
+Add some code to the body of `gc_mark` to process the mal object passed
+as its one parameter.
+If the `gc_marked` flag is set on that
+object, `gc_mark` should return immediately.  If it is clear,
 the function should set the flag and then call `gc_mark` recursively
 on every object referenced by this one.
 
@@ -62,9 +73,9 @@ frees (and removes from the object list) those that have `gc_marked`
 clear.  Where it finds an object with `gc_marked` set, it should clear
 the flag and otherwise leave it alone.
 
-Before the call to `gc_sweep` in the main loop, add a call to
-`gc_mark`, passing in `repl_env` as its argument.  This will ensure
-that objects referenced from it are not freed.
+Adjust the call to `gc` in the main loop to pass `repl_env` as its
+single argument.  This will ensure that the objects referenced from
+`repl_env` are not freed, but everything else is.
 
 #### Step 3
 
