@@ -31,22 +31,24 @@ garbage-collection will probably not pass the tests for step 5.
 In this step, the garbage-collector can be very simple: it will just
 free every allocated object in each iteration of the main loop.
 
-Create a global list of mal objects, and add each mal object
-to this list when it's created.  This can be a simple single-linked
-list: items will only be removed while we're iterating over the list.
+* Create a global list of mal objects, and add each mal object
+  to this list when it's created.  This can be a simple single-linked
+  list: items will only be removed while we're iterating over the list.
 
-Add a new function to `types.qx` called `gc_sweep`.  It should have no
-parameters, and should simply walk over the global object list,
-removing each object from the list and freeing it.
+* Add a new function to `types.qx` called `gc_sweep`.  It should have no
+  parameters, and should simply walk over the global object list,
+  removing each object from the list and freeing it.
 
-Also in `types.qx`, create a function called `gc_mark`.  It should
-take one parameter and do nothing.  Create
-another function called simply `gc` that takes a single parameter and
-calls `gc_mark` with that parameter and then calls `gc_sweep`.  This
-is the stub of your garbage collector.
+* Also in `types.qx`, create a function called `gc_mark`.  It should
+  take one parameter and do nothing.
 
-Put a call to `gc` into the main loop, so that it will get
-called after each call to `rep`.  Pass it a `nil` argument.
+* Create
+  another function called simply `gc` that takes a single parameter and
+  calls `gc_mark` with that parameter and then calls `gc_sweep`.  This
+  is the stub of your garbage collector.
+
+* Put a call to `gc` into the main loop, so that it will get
+  called after each call to `rep`.  Pass it a `nil` argument.
 
 The resulting program now frees all the mal objects that it allocates
 in each loop, so it shouldn't leak memory any more.  You could
@@ -58,29 +60,30 @@ There are now some mal objects that need to survive a garbage
 collection, namely `repl_env` and its contents.  This will require you
 to implement most of the rest of the garbage collector.
 
-Add a flag to each mal object called `gc_marked`.  A newly-created
-object should have this flag clear.
+* Add a flag to each mal object called `gc_marked`.  A newly-created
+  object should have this flag clear.
 
-Add some code to the body of `gc_mark` to process the mal object passed
-as its one parameter.
-If the `gc_marked` flag is set on that
-object, `gc_mark` should return immediately.  If it is clear,
-the function should set the flag and then call `gc_mark` recursively
-on every object referenced by this one.
+* Add some code to the body of `gc_mark` to process the mal object passed
+  as its one parameter.
+  If the `gc_marked` flag is set on that
+  object, `gc_mark` should return immediately.  If it is clear,
+  the function should set the flag and then call `gc_mark` recursively
+  on every object referenced by this one.
 
-Modify `gc_sweep` so that instead of freeing every object, it only
-frees (and removes from the object list) those that have `gc_marked`
-clear.  Where it finds an object with `gc_marked` set, it should clear
-the flag and otherwise leave it alone.
+* Modify `gc_sweep` so that instead of freeing every object, it only
+  frees (and removes from the object list) those that have `gc_marked`
+  clear.  Where it finds an object with `gc_marked` set, it should clear
+  the flag and otherwise leave it alone.
 
-Adjust the call to `gc` in the main loop to pass `repl_env` as its
-single argument.  This will ensure that the objects referenced from
-`repl_env` are not freed, but everything else is.
+* Adjust the call to `gc` in the main loop to pass `repl_env` as its
+  single argument.  This will ensure that the objects referenced from
+  `repl_env` are not freed, but everything else is.
 
 #### Step 3
 
-Step 3 introduces environments, so `gc_mark` needs to be extended to
-support them.  At this point the garbage-collector starts to be
+* Extend `gc_mark` to support environments.
+
+At this point the garbage-collector starts to be
 properly useful: if you instrument it you should be able to see it
 keeping objects while they're referenced by `repl_env` and freeing
 them when they're removed.
