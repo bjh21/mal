@@ -158,12 +158,13 @@ steps it just needs minor adaptations to keep it working.
 #### Step 5
 
 Here, you replace tail-recursive calls to `EVAL` with jumps back to
-the start of the function.  In step 4, you passed `gc_inner_root` to
-these calls, but that was unnecessary.  Because those calls were it
-tail positions, the outer `EVAL` couldn't access any objects after the
-return from the inner `EVAL` so you could have passed `gc_root`
-instead.  Which conveniently is precisely what happens if you just
-leave `gc_root` alone over TCO.
+the start of the function.  All of these calls to `EVAL` should have
+kept the same value of `gc_root`, so there's no additional work needed
+to set it.
+
+It may look like there's no point in passing `gc_root` to core
+functions any more.  Leave it there, though: it will become necessary
+again in the next step.
 
 TODO: restructure in terms of steps:
 
