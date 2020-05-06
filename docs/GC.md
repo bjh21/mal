@@ -90,67 +90,67 @@ them when they're removed.
 
 #### Step 4
 
-The first thing to do here is fairly simple.  Now that functions
-can be defined in mal, you need to
-ensure that `gc_mark` correctly handles such a function, marking the
-parameter list, function body, and environment.  This will probably
-preclude using a native closure to represent a function.
+The first thing to do here is fairly simple.
+
+* Extend `gc_mark` to correctly handle functions defined in mal,
+  marking the parameter list, function body, and environment, as well
+  as the function itself.  This will probably preclude using a native
+  closure to represent a function.
 
 Now things get interesting.  In the earlier steps, the amount of
 memory that could be allocated in a single pass through the REPL was
 quite limited, but with the ability to define functions comes the
 ability to do an arbitrary amount of computation, and hence
-allocation, in a single expression.  Thus, you need to move the call to
+allocation, in a single expression.
+This means that you need to move the call to
 the garbage collector out of the main loop.  Instead, you will put it
 at the start of `EVAL`, which is the heart of your LISP interpreter.
 
-Moving the garbage collector into `EVAL` means that you need to start
-being a lot more careful about what can be accessed by the program,
-and hence what needs to be passed to `gc_mark`.
+Moving the garbage collector into `EVAL` means that it needs to mark
+not only the REPL environment but also any mal values referenced by
+local variables anywhere in the call stack leading to `gc`.  Or more
+precisely, values referenced by local variables that are still _live_,
+that is, that might be used in future by the interpreter.
 
-Obviously at the start of `EVAL`, its two
-arguments (`ast` and `env`) will need to be passed to `gc_mark`, but
-it's also necessary to mark all the values that might be accessed by
-functions that have been called on the way to this invocation of
-`EVAL`.  To do this, you'll arrange to maintain a stack of mal objects
-that are still accessible.
+* Add a new parameter to `EVAL` called `gc_root`.
 
-Add a third parameter to both `EVAL` and `eval_ast`.  Call it
-`gc_root`.  Where `rep` calls `EVAL`, it should pass `nil` in this
-position, since the only mal objects that are live at this point are
-the environment and the expression being evaluated, and those are in
-the other two arguments to `EVAL`.
+* At the start of `EVAL`, create a mal vector (or list) containing
+  `ast`, `env`, and `gc_root`.  Call it `gc_inner_root`, and call
+  `gc` passing it `gc_inner_root`.
 
-At the start of `EVAL`, construct a new list or vector containing the
-three arguments to `EVAL`.  Call this `gc_inner_root`.  Have `EVAL`
-call `gc_mark` on `gc_inner_root` and then `gc_sweep`.  Between them,
-`ast` and `env` reference everything that this invocation of `EVAL`
-can use, while `gc_root` does the same for its callers, so this will
-only free objects that are no longer in use.
+* Where `EVAL` calls itself recursively, update it to pass `gc_root`
+  or `gc_inner_root`:
 
-Now you just need to ensure that every time `EVAL` is invoked, it
-gets a correct `gc_root`.  Where `EVAL` calls itself directly, passing
-`gc_inner_root` should work.  The only thing to worry about would be
-if `EVAL` creates anything itself, but that only applies to the new
-environment created by `let*`, and that environment is passed as
-`env` to all the inner `EVAL` calls.
+  * `def!` should pass `gc_inner_root` when evaluating its second
+    parameter.
+  * `let*` should pass `gc_inner_root` while constructing the new
+    environment, but `gc_root` when evaluating the final parameter.
+  * `if` should pass `gc_inner_root` when evaluating the condition,
+    but `gc_root` when evaluating the second or third parameter.
 
-Where `EVAL` calls `eval_ast`, have it pass `gc_inner_root` as the
-`gc_root` parameter.  When `eval_ast` calls back to `EVAL` it does so
-as part of constructing a new list, vector, or hashmap, and it usually
-does so more than once.  You need to ensure that when `eval_ast` calls
-`EVAL`, any partial results that it's already got are reachable from
-`gc_root`.
+* Where `rep` calls `EVAL`, have it pass `nil` as `gc_root`.
 
-The final route by which `EVAL` gets called is when the closure
-produced by `fn*` calls it.  The value of `gc_root` here needs to be
-provided when the closure gets called rather than being captured by
-the closure, which in turn means that the "apply" part of `EVAL` needs
-to pass `gc_root` to any function that it invokes.  This will require
-adding an extra argument to everything that can be applied to take
-`gc_root`.  All the existing core functions can ignore this new argument.
-The closure constructed by `fn*` should use it, though, and pass it
-through to `EVAL`.
+* Add an extra `gc_root` parameter to the closure produced by `fn*`
+  and have that closure pass it on to `EVAL`.
+
+* Also add an extra `gc_root` parameter to every function in
+  `core.ns`.  For now, all of them will ignore it.
+
+* Have the default, "apply" case of `EVAL` pass `gc_root` on to the
+  function that it calls, whether that's a core function or one
+  created by `fn*`.
+
+* Add a `gc_root` parameter to `eval_ast`.
+
+* Where `EVAL` calls `eval_ast` (as part of `do` and when evaluating a
+  non-special form), have it pass on `gc_root`.
+
+* In `eval_ast`, when evaluating a list, vector, or hash-map, ensure
+  that `ast`, any results returned by previous calls to `EVAL`, and
+  any data structure in which you're accumulating such results, are
+  retained over each call to `EVAL`.  This will probably require
+  constructing a list or vector containing them and `gc_root`, and
+  passing that list or vector as `gc_root` in the call to `EVAL`.
 
 You now have a fully working garbage collector.  In the remaining
 steps it just needs minor adaptations to keep it working.
