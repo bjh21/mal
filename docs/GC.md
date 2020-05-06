@@ -146,7 +146,7 @@ that is, that might be used in future by the interpreter.
   non-special form), have it pass on `gc_root`.
 
 * In `eval_ast`, when evaluating a list, vector, or hash-map, ensure
-  that `ast`, any results returned by previous calls to `EVAL`, and
+  that `ast`, `env`, any results returned by previous calls to `EVAL`, and
   any data structure in which you're accumulating such results, are
   retained over each call to `EVAL`.  This will probably require
   constructing a list or vector containing them and `gc_root`, and
