@@ -2,7 +2,8 @@
 
 Numbers are represented by numeric scalars (i.e. numeric arrays of rank zero)
 
-Strings are represented by character vectors (i.e. character arrays of rank 1)
+Strings are represented by character vectors (i.e. character arrays of
+rank 1) or scalars.
 
 symbols are represented by character arrays of rank 2
 keywords are represented by character arrays of rank 3
@@ -10,33 +11,39 @@ keywords are represented by character arrays of rank 3
 The ravel-list of a string, symbol, or keyword with the same content
 is identical.
 
-mal   | APL
+mal     | APL
 ---------------------
-"foo" | 'foo'
-foo   | 1 3 ⍴ 'foo'
-:foo  | 1 1 3 ⍴ 'foo'
+`"foo"` | `'foo'`
+`foo`   | `1 3 ⍴ 'foo'`
+`:foo`  | `1 1 3 ⍴ 'foo'`
 
 Lists are represented by mixed or numeric vectors.
 
 The empty list is an empty numeric (or mixed?) vector.
 
-mal   | APL
------------
-()    | 0⍴1
-(7)   | 1⍴7
-(8 9) | 8 9
+mal     | APL
+---------------
+`()`    | `0⍴1`
+`(7)`   | `1⍴7`
+`(8 9)` | `8 9`
 
 To distinguish a (maybe empty) list x from a string:
 
+``` apl
 ' '≡↑0⍴x  ⍝ True iff x is a string
+```
+
+Vectors are represented by a column matrix.  A list can be converted
+to the corresponding vector by applying `⍪` to it.  A vector can be
+converted to a list using `,`.
 
 Hash-maps are represented by a two-column matrix, with the keys in the
 left column and the values in the right.
 
-mal                       | APL
----------------------------------------------------------
-{}                        | 0 2 ⍴ 1
-{"foo" 1 "bar" 2 "baz" 3} | 3 2 ⍴ 'foo' 1 'bar' 2 'baz' 3
+mal                         | APL
+-------------------------------------------------------------
+`{}`                        | `0 2 ⍴ 1`
+`{"foo" 1 "bar" 2 "baz" 3}` | `3 2 ⍴ 'foo' 1 'bar' 2 'baz' 3`
 
 Construct a hash-map hm from a list l
 hm ← (((⍴l)÷2),2)⍴l
@@ -60,9 +67,9 @@ Dependencies ensure that the library workspaces are built first.
 
 The run script then uses -L to load the correct workspace.
 
-## Useful character for copy/paste
-⍴←≡⎕
-⍝
+## Useful characters for copy/paste
+⍴←≡⎕⍕⍎≠⊂
+⍝∇
 
       !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNO
       PQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~¥€⇄∧∼≬⋆⋸⌸⌺⌼μ⍁¡⍣⍅⎕⍞⌹⍆⍤⍇⍈⍊⊤λ

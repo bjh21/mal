@@ -3,12 +3,12 @@
 )COPY reader
 
 ∇x←READ x
- x←tokenize x
+ x←read_str x
 ∇
 ∇x←EVAL x
 ∇
 ∇x←PRINT x
- x←1⎕CR x
+ x←4⎕CR x
 ∇
 
 ∇x←rep x
