@@ -1,6 +1,7 @@
 )WSID step1_read_print
 
 )COPY reader
+)COPY printer
 
 ∇x←READ x
  x←read_str x
@@ -8,7 +9,7 @@
 ∇x←EVAL x
 ∇
 ∇x←PRINT x
- x←4⎕CR x
+ x←pr_str x
 ∇
 
 ∇x←rep x

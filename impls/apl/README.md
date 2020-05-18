@@ -68,8 +68,8 @@ Dependencies ensure that the library workspaces are built first.
 The run script then uses -L to load the correct workspace.
 
 ## Useful characters for copy/paste
-⍴←≡⎕⍕⍎≠⊂
-⍝∇
+⍴←≡⎕⍕⍎≠⊂⊃
+⍝∇→
 
       !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNO
       PQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~¥€⇄∧∼≬⋆⋸⌸⌺⌼μ⍁¡⍣⍅⎕⍞⌹⍆⍤⍇⍈⍊⊤λ
