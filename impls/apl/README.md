@@ -48,8 +48,11 @@ mal                         | APL
 Construct a hash-map hm from a list l
 hm ← (((⍴l)÷2),2)⍴l
 
-Look up 'foo' in hm:
-hm[((⊂'foo')≡¨(hm[;1]))⍳1;2]
+Is an element present?
+∨/(⊂'quux')≡¨hm[;1]
+
+Look up 'foo' in hm (assuming it's present):
+↑((⊂'spoo')≡¨hm[;1])/hm[;2]
 
 ## Libraries
 
