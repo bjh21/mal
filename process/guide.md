@@ -1350,7 +1350,7 @@ implementation. Let us continue!
 ```
     * Note that `cond` calls the `throw` function when `cond` is
       called with an odd number of args. The `throw` function is
-      implemented in the next step, but it will still serve it's
+      implemented in the next step, but it will still serve its
       purpose here by causing an undefined symbol error.
 
 
