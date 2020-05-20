@@ -70,6 +70,33 @@ Dependencies ensure that the library workspaces are built first.
 
 The run script then uses -L to load the correct workspace.
 
+## Character set
+
+Different APL implementations have different ideas about how to map
+the APL character set onto Unicode.  My code follows GNU APL, using
+the characters below:
+
+APL name       | Symbol | Unicode code point
+--------------------------------------------
+up shoe jot    | `⍝`    | U+235D APL FUNCTIONAL SYMBOL UP SHOE JOT
+rho            | `⍴`    | U+2374 APL FUNCTIONAL SYMBOL RHO
+left arrow     | `←`    | U+2190 LEFTWARDS ARROW
+quad           | `⎕`    | U+2395 APL FUNCTIONAL SYMBOL QUAD
+quote quad     | `⍞`    | U+235E APL FUNCTIONAL SYMBOL QUOTE QUAD
+del            | `∇`    | U+2207 NABLA
+right shoe     | `⊃`    | U+2283 SUPERSET OF
+dieresis       | `¨`    | U+00A8 DIAERESIS
+equal underbar | `≡`    | U+2261 IDENTICAL TO
+slash          | `/`    | U+002F SOLIDUS
+down tack jot  | `⍎`    | U+234E APL FUNCTIONAL SYMBOL DOWN TACK JOT
+up tack jot    | `⍕`    | U+2355 APL FUNCTIONAL SYMBOL UP TACK JOT
+epsilon        | `∈`    | U+2208 ELEMENT OF
+down arrow     | `↓`    | U+2193 DOWNWARDS ARROW
+comma bar      | `⍪`    | U+236A APL FUNCTIONAL SYMBOL COMMA BAR
+
+If you want to run it on a different APL implementation, you may need
+to translate those characters to different code points.
+
 ## Useful characters for copy/paste
 ⍴←≡⎕⍕⍎≠⊂⊃
 ⍝∇→
