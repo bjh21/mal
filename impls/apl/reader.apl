@@ -29,10 +29,19 @@ token_re ← token_re,';.*|[^\s\[\]{}(''"`,;)]+))'
 ∇form ← read_form; next
  next ← reader_peek
  →(next≡,'(')/do_list
+ →(next≡,'[')/do_vector
+ →(next≡,'{')/do_hashmap
  form ← read_atom
  →0
- do_list:
+do_list:
  form ← read_list
+ →0
+do_vector:
+ form ← ⍪read_list  
+ →0
+do_hashmap:
+ form ← read_list
+ form ← (((⍴form)÷2),2)⍴form
 ∇
 
 ∇list ← read_list; token; form

@@ -12,7 +12,7 @@ The ravel-list of a string, symbol, or keyword with the same content
 is identical.
 
 mal     | APL
----------------------
+--------|------------
 `"foo"` | `'foo'`
 `foo`   | `1 3 ⍴ 'foo'`
 `:foo`  | `1 1 3 ⍴ 'foo'`
@@ -22,7 +22,7 @@ Lists are represented by mixed or numeric vectors.
 The empty list is an empty numeric (or mixed?) vector.
 
 mal     | APL
----------------
+--------|------
 `()`    | `0⍴1`
 `(7)`   | `1⍴7`
 `(8 9)` | `8 9`
@@ -41,7 +41,7 @@ Hash-maps are represented by a two-column matrix, with the keys in the
 left column and the values in the right.
 
 mal                         | APL
--------------------------------------------------------------
+----------------------------|--------------------------------
 `{}`                        | `0 2 ⍴ 1`
 `{"foo" 1 "bar" 2 "baz" 3}` | `3 2 ⍴ 'foo' 1 'bar' 2 'baz' 3`
 
@@ -77,7 +77,7 @@ the APL character set onto Unicode.  My code follows GNU APL, using
 the characters below:
 
 APL name       | Symbol | Unicode code point
---------------------------------------------
+---------------|--------|-------------------
 up shoe jot    | `⍝`    | U+235D APL FUNCTIONAL SYMBOL UP SHOE JOT
 rho            | `⍴`    | U+2374 APL FUNCTIONAL SYMBOL RHO
 left arrow     | `←`    | U+2190 LEFTWARDS ARROW
@@ -94,6 +94,8 @@ epsilon        | `∈`    | U+2208 ELEMENT OF
 down arrow     | `↓`    | U+2193 DOWNWARDS ARROW
 comma bar      | `⍪`    | U+236A APL FUNCTIONAL SYMBOL COMMA BAR
 overbar        | `¯`    | U+00AF MACRON
+equal bar slash| `≢`    | U+2262 NOT IDENTICAL TO
+up arrow       | `↑`    | U+2191 UPWARDS ARROW
 
 If you want to run it on a different APL implementation, you may need
 to translate those characters to different code points.
