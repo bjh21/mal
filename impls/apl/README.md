@@ -93,6 +93,7 @@ up tack jot    | `⍕`    | U+2355 APL FUNCTIONAL SYMBOL UP TACK JOT
 epsilon        | `∈`    | U+2208 ELEMENT OF
 down arrow     | `↓`    | U+2193 DOWNWARDS ARROW
 comma bar      | `⍪`    | U+236A APL FUNCTIONAL SYMBOL COMMA BAR
+overbar        | `¯`    | U+00AF MACRON
 
 If you want to run it on a different APL implementation, you may need
 to translate those characters to different code points.

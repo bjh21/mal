@@ -40,7 +40,7 @@ token_re ← token_re,';.*|[^\s\[\]{}(''"`,;)]+))'
  list ← ⍳0
  loop:
   token ← reader_peek
-  → (token≡,')')/done
+  → ((⊂,token)∈(,')')(,']')(,'}'))/done
   form ← read_form
   list ← list,⊂form
  → loop
