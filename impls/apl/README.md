@@ -84,6 +84,7 @@ left arrow     | `←`    | U+2190 LEFTWARDS ARROW
 quad           | `⎕`    | U+2395 APL FUNCTIONAL SYMBOL QUAD
 quote quad     | `⍞`    | U+235E APL FUNCTIONAL SYMBOL QUOTE QUAD
 del            | `∇`    | U+2207 NABLA
+left shoe      | `⊂`    | U+2282 SUBSET OF
 right shoe     | `⊃`    | U+2283 SUPERSET OF
 dieresis       | `¨`    | U+00A8 DIAERESIS
 equal underbar | `≡`    | U+2261 IDENTICAL TO
@@ -94,10 +95,11 @@ epsilon        | `∈`    | U+2208 ELEMENT OF
 down arrow     | `↓`    | U+2193 DOWNWARDS ARROW
 comma bar      | `⍪`    | U+236A APL FUNCTIONAL SYMBOL COMMA BAR
 overbar        | `¯`    | U+00AF MACRON
-equal bar slash| `≢`    | U+2262 NOT IDENTICAL TO
+equal underbar slash| `≢`| U+2262 NOT IDENTICAL TO
 up arrow       | `↑`    | U+2191 UPWARDS ARROW
-?and?          | `∧`	| U+2227 LOGICAL AND
-?or?           | `∨`	| U+2228 LOGICAL OR
+up caret       | `∧`	| U+2227 LOGICAL AND
+down caret     | `∨`	| U+2228 LOGICAL OR
+iota           | `⍳`    | U+2373 APL FUNCTIONAL SYMBOL IOTA
 
 If you want to run it on a different APL implementation, you may need
 to translate those characters to different code points.
