@@ -60,12 +60,18 @@ do_hashmap:
 ∇atom ← read_atom; token
  token ← reader_next
  → (⍴ '^-?[0-9]+$' ⎕RE token)/number
- → (':'=↑token)/keyword
+ → (':"'=↑token)/keyword,string
  atom ← (1,⍴token) ⍴ token
  →0
 keyword:
  token ← 1↓token
  atom ← (1 1,⍴token) ⍴ token
+ →0
+string:
+ token ← ¯1↓1↓token ⍝ Strip quotation marks
+ ⍝ Removing escape sequences is surprisingly hard, at least without
+ ⍝ using an explicit loop, so ignore the problem for now.
+ atom ← token
  →0
 number:
  atom ← ⍎ token
