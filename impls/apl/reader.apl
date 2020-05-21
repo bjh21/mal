@@ -10,7 +10,7 @@
 ∇
 
 ∇next ← reader_peek
- 'Unexpected end of input' ⎕ES (0=⍴reader)/0 1
+ 'Unexpected end of input' ⎕ES (0=⍴reader)/101 1
  next ← ↑reader
 ∇
 
@@ -68,6 +68,7 @@ keyword:
  atom ← (1 1,⍴token) ⍴ token
  →0
 string:
+ 'Unterminated string' ⎕ES ('"'≠¯1↑token)/101 2
  token ← ¯1↓1↓token ⍝ Strip quotation marks
  ⍝ Removing escape sequences is surprisingly hard, at least without
  ⍝ using an explicit loop, so ignore the problem for now.
