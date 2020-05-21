@@ -60,9 +60,14 @@ do_hashmap:
 ∇atom ← read_atom; token
  token ← reader_next
  → (⍴ '^-?[0-9]+$' ⎕RE token)/number
+ → (':'=↑token)/keyword
  atom ← (1,⍴token) ⍴ token
  →0
- number:
+keyword:
+ token ← 1↓token
+ atom ← (1 1,⍴token) ⍴ token
+ →0
+number:
  atom ← ⍎ token
 ∇
 

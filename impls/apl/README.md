@@ -96,6 +96,8 @@ comma bar      | `⍪`    | U+236A APL FUNCTIONAL SYMBOL COMMA BAR
 overbar        | `¯`    | U+00AF MACRON
 equal bar slash| `≢`    | U+2262 NOT IDENTICAL TO
 up arrow       | `↑`    | U+2191 UPWARDS ARROW
+?and?          | `∧`	| U+2227 LOGICAL AND
+?or?           | `∨`	| U+2228 LOGICAL OR
 
 If you want to run it on a different APL implementation, you may need
 to translate those characters to different code points.

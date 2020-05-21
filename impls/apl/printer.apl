@@ -3,18 +3,23 @@
 )COPY types
 
 ∇string ← pr_str form; delim
- →(' '≡↑0⍴form)/stringish
- →(0<⍴⍴form)/seq
+ →(numberp form)/number
+ →((symbolp form),(keywordp form))/symbol keyword
+ →((listp form)∨(vectorp form)∨(mapp form))/seq
+ string ← '<unprintable>'
+ →0
+number:
  string ← ⍕form
  →0
 seq:
  delim ← ↑((listp form),(vectorp form),(mapp form)) / '()' '[]' '{}'
  string ← delim[1],(¯1↓∈(⍪pr_str¨,form),' '),delim[2]
  →0
-stringish:
- →(2=⍴⍴form)/symbol
 symbol:
  string ← ,form
+ →0
+keyword:
+ string ← ':',,form
  →0
 ∇
 
