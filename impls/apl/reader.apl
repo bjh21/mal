@@ -70,12 +70,27 @@ keyword:
 string:
  'Unterminated string' ⎕ES ('"'≠¯1↑token)/101 2
  token ← ¯1↓1↓token ⍝ Strip quotation marks
- ⍝ Removing escape sequences is surprisingly hard, at least without
- ⍝ using an explicit loop, so ignore the problem for now.
- atom ← token
+ atom ← unescape token
  →0
 number:
  atom ← ⍎ token
+∇
+
+∇ch ← unescape1 ch
+ ⍝⍝ process a single \-escape
+ →('n'≠ch)/0  ⍝ Most characters map to themselves
+ ch ← ⎕UCS 10 ⍝ But 'n' becomes LF
+∇
+
+∇str ← unescape token; bsidx
+ ⍝⍝ str is token with the \-escapes removed
+ →(∼'\'∈token)/skip ⍝ Don't unescape strings without '\' (GNU APL bug)
+ bsidx ← 1+(⊃ '\\.|\\$' ⎕RE['g↓'] token)[;1] ⍝ Indices of quoting '\'
+ 'Unterminated string' ⎕ES ((⍴token)=¯1↑bsidx)/101 2
+ token[1+bsidx] ← unescape1¨token[1+bsidx]   ⍝ Replace escaped chars
+ token[bsidx] ← ⊂''			     ⍝ Strip backslashes
+skip:
+ str ← ∈token 				     ⍝ Flatten
 ∇
 
 )SAVE

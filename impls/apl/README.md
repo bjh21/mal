@@ -100,6 +100,8 @@ up arrow       | `↑`    | U+2191 UPWARDS ARROW
 up caret       | `∧`	| U+2227 LOGICAL AND
 down caret     | `∨`	| U+2228 LOGICAL OR
 iota           | `⍳`    | U+2373 APL FUNCTIONAL SYMBOL IOTA
+equal slash    | `≠`    | U+2260 NOT EQUAL TO
+tilde          | `∼`    | U+223C TILDE OPERATOR
 
 If you want to run it on a different APL implementation, you may need
 to translate those characters to different code points.
