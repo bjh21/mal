@@ -28,6 +28,12 @@ do_map:
  →0
 do_list:
  →(0=⍴ast)/0
+ →(((1 4)⍴'def!')≢↑ast)/not_def
+ x ← env EVAL ⊃ast[3]
+ env env_set ast[2], ⊂x
+ ast ← x
+ →0
+not_def:
  ast ← env eval_ast ast
  (op x y) ← ast
  ast ← ⍎ 'x ',op,' y'
@@ -60,8 +66,8 @@ repl_env env_set ((1 1)⍴'*') ('×')
 repl_env env_set ((1 1)⍴'/') ('div')
 
 ∇repl
- loop: '''Error!''◊→(∧/(1 17)=⎕ET)/0' ⎕EA '⎕ ← rep readline ''user> '''
-⍝ loop: ⎕ ← rep readline 'user> '
+⍝ loop: '''Error!''◊→(∧/(1 17)=⎕ET)/0' ⎕EA '⎕ ← rep readline ''user> '''
+ loop: ⎕ ← rep readline 'user> '
  →loop
 ∇
 
