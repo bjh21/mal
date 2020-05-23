@@ -22,6 +22,14 @@ do_map:
  ast[;2] ← (⊂env)EVAL¨ast[;2]
 ∇
 
+∇env env_set_eval kv; key; value
+ ⍝⍝ Set environment to value evaluated in that environment.
+ ⍝ This is a helper for let*.
+ (key value) ← kv
+ value ← env EVAL value
+ env env_set key value
+∇
+
 ∇ast←env EVAL ast; op; x; y
  →(listp ast)/do_list
  ast ← env eval_ast ast
@@ -36,7 +44,7 @@ do_list:
 not_def:
  →(((1 4)⍴'let*')≢↑ast)/not_let
  env ← env_new env
- (⊂env)env_set¨⊂[2](((⍴,⊃ast[2])÷2),2)⍴(⊃ast[2])
+ (⊂env)env_set_eval¨⊂[2](((⍴,⊃ast[2])÷2),2)⍴(⊃ast[2])
  ast ← env EVAL ⊃ast[3]
  →0
 not_let:
