@@ -1,5 +1,6 @@
 )WSID step2_eval
 
+)COPY types
 )COPY reader
 )COPY printer
 
