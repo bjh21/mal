@@ -13,6 +13,7 @@ envctr ← 1
  ⍝⍝ set a value in an environment
  (key value) ← kv
  data ← ⍎↑env
+ data ← ((⊂key)≢¨data[;1])⌿data
  data ← data,[1]kv
  ⍎(↑env),' ← data'
 ∇

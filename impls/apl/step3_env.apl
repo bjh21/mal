@@ -66,8 +66,8 @@ repl_env env_set ((1 1)⍴'*') ('×')
 repl_env env_set ((1 1)⍴'/') ('div')
 
 ∇repl
-⍝ loop: '''Error!''◊→(∧/(1 17)=⎕ET)/0' ⎕EA '⎕ ← rep readline ''user> '''
- loop: ⎕ ← rep readline 'user> '
+ loop: '''Error!''◊→(∧/(1 17)=⎕ET)/0' ⎕EA '⎕ ← rep readline ''user> '''
+⍝ loop: ⎕ ← rep readline 'user> '
  →loop
 ∇
 
