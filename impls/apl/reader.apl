@@ -1,5 +1,7 @@
 )WSID reader
 
+)COPY types
+
 ∇reader_init tokens
  ⍝⍝ fill the reader with tokens
  reader ← tokens
@@ -43,11 +45,10 @@ do_list:
  form ← read_list
  →0
 do_vector:
- form ← ⍪read_list  
+ form ← V read_list
  →0
 do_hashmap:
- form ← read_list
- form ← (((⍴form)÷2),2)⍴form
+ form ← H read_list
 ∇
 
 ∇list ← read_list; token; form
@@ -69,11 +70,11 @@ do_hashmap:
  token ← reader_next
  → (⍴ '^-?[0-9]+$' ⎕RE token)/number
  → (':"'=↑token)/keyword,string
- atom ← (1,⍴token) ⍴ token
+ atom ← S token
  →0
 keyword:
  token ← 1↓token
- atom ← (1 1,⍴token) ⍴ token
+ atom ← K token
  →0
 string:
  'Unterminated string' ⎕ES ('"'≠¯1↑token)/101 2

@@ -36,15 +36,15 @@ do_map:
  →0
 do_list:
  →(0=⍴ast)/0
- →(((1 4)⍴'def!')≢↑ast)/not_def
+ →((S'def!')≢↑ast)/not_def
  x ← env EVAL ⊃ast[3]
  env env_set ast[2], ⊂x
  ast ← x
  →0
 not_def:
- →(((1 4)⍴'let*')≢↑ast)/not_let
+ →((S'let*')≢↑ast)/not_let
  env ← env_new env
- (⊂env)env_set_eval¨⊂[2](((⍴,⊃ast[2])÷2),2)⍴(⊃ast[2])
+ (⊂env)env_set_eval¨⊂[2]H⊃ast[2]
  ast ← env EVAL ⊃ast[3]
  →0
 not_let:
@@ -74,10 +74,10 @@ not_let:
 ∇
 
 repl_env ← env_new ⍳0
-repl_env env_set ((1 1)⍴'+') ('+')
-repl_env env_set ((1 1)⍴'-') ('-')
-repl_env env_set ((1 1)⍴'*') ('×')
-repl_env env_set ((1 1)⍴'/') ('div')
+repl_env env_set (S'+') ('+')
+repl_env env_set (S'-') ('-')
+repl_env env_set (S'*') ('×')
+repl_env env_set (S'/') ('div')
 
 ∇repl
  loop: '''Error!''◊→(∧/(1 17)=⎕ET)/0' ⎕EA '⎕ ← rep readline ''user> '''

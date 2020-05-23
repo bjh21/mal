@@ -5,6 +5,7 @@ workspaces/%.xml: %.apl
 	mkdir -p workspaces
 	apl --OFF --noCONT -f $<
 
+workspaces/reader.xml: workspaces/types.xml
 workspaces/printer.xml: workspaces/types.xml
 
 STEP1_DEPS = workspaces/reader.xml workspaces/printer.xml

@@ -33,4 +33,24 @@
  result ← (' '≢↑0⍴form) ∧ (2=↑⍴⍴form) ∧ (2=¯1↑⍴form)
 ∇
 
+∇symbol ← S string
+ ⍝⍝ Reshape a string/symbol/keyword into a symbol
+ symbol ← (1,⍴,string)⍴string
+∇
+
+∇keyword ← K string
+ ⍝⍝ Reshape a string/symbol/keyword into a keyword
+ keyword ← (1 1,⍴,string)⍴string
+∇
+
+∇vector ← V list
+ ⍝⍝ Reshape a list/vector/hash-map into a vector
+ vector ← ⍪list
+∇
+
+∇hashmap ← H list
+ ⍝⍝ Reshape a list/vector/hash-map into a hash-map
+ hashmap ← (((⍴,list)÷2),2)⍴list
+∇
+
 )SAVE
