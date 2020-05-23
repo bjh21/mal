@@ -1,20 +1,24 @@
 )WSID reader
 
 ∇reader_init tokens
+ ⍝⍝ fill the reader with tokens
  reader ← tokens
 ∇
 
 ∇next ← reader_next
+ ⍝⍝ remove and return the next token from the reader
  next ← reader_peek
  reader ← 1↓reader
 ∇
 
 ∇next ← reader_peek
+ ⍝⍝ return the next token without removing it
  'Unexpected end of input' ⎕ES (0=⍴reader)/101 1
  next ← ↑reader
 ∇
 
 ∇form ← read_str str
+ ⍝⍝ convert a string into a mal form
  reader_init tokenize str
  form ← read_form
 ∇
@@ -23,10 +27,12 @@ token_re ← '\G(?:[\s,]*(~@|[\[\]{}()''`~^@]|"(?:\\.|[^\\"])*"?|'
 token_re ← token_re,';.*|[^\s\[\]{}(''"`,;)]+))'
 
 ∇tokens ← tokenize str
+ ⍝⍝ split a string into a vector of tokens
  tokens ← 2⊃¨token_re ⎕RE['g'] ,str
 ∇
 
 ∇form ← read_form; next
+ ⍝⍝ extract a form from the reader
  next ← reader_peek
  →(next≡,'(')/do_list
  →(next≡,'[')/do_vector
@@ -45,6 +51,7 @@ do_hashmap:
 ∇
 
 ∇list ← read_list; token; form
+ ⍝⍝ extract a list, vector, or hash-map from the reader
  token ← reader_next ⍝ Consume opening '('
  list ← ⍳0
  loop:
@@ -58,6 +65,7 @@ do_hashmap:
 ∇
 
 ∇atom ← read_atom; token
+ ⍝⍝ extract a number, string, symbol, or keyword from the reader
  token ← reader_next
  → (⍴ '^-?[0-9]+$' ⎕RE token)/number
  → (':"'=↑token)/keyword,string

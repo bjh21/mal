@@ -12,6 +12,7 @@
 ∇
 
 ∇line ← readline prompt
+ ⍝⍝ show a prompt, read a line, don't return the prompt
  ⍞ ← prompt
  ⍝ When ⍞ is used to prompt for input, the result starts with spaces to
  ⍝ the length of the prompt.  We have to strip those off.

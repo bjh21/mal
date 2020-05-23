@@ -3,6 +3,7 @@
 )COPY types
 
 ∇str ← pr_str form; delim
+ ⍝⍝ convert a single mal form into a string
  →(numberp form)/number
  →((stringp form),(symbolp form),(keywordp form))/string symbol keyword
  →((listp form)∨(vectorp form)∨(mapp form))/seq
