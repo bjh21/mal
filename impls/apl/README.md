@@ -52,7 +52,7 @@ Is an element present?
 ∨/(⊂'quux')≡¨hm[;1]
 
 Look up 'foo' in hm (assuming it's present):
-↑((⊂'spoo')≡¨hm[;1])/hm[;2]
+↑((⊂'foo')≡¨hm[;1])/hm[;2]
 
 ## Libraries
 
