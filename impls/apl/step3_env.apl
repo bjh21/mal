@@ -13,8 +13,7 @@
  →((symbolp ast),(mapp ast),(listp ast)∨(vectorp ast))/do_symbol do_map do_seq
  →0
 do_symbol:
- ('''',(,ast),''' not found') ⎕ES (∼∨/(⊂,ast)≡¨env[;1])/101 3
- ast ← ,↑((⊂,ast)≡¨env[;1])/env[;2]
+ ast ← env env_get ast
  →0
 do_seq:
  ast ← (⊂env)EVAL¨ast
@@ -54,7 +53,11 @@ do_list:
  q ← ⌊a÷b
 ∇
 
-repl_env ← 4 2 ⍴ (,'+')'+'  (,'-')('-')  (,'*')('×')  (,'/') ('div')
+repl_env ← env_new ⍳0
+repl_env env_set ((1 1)⍴'+') ('+')
+repl_env env_set ((1 1)⍴'-') ('-')
+repl_env env_set ((1 1)⍴'*') ('×')
+repl_env env_set ((1 1)⍴'/') ('div')
 
 ∇repl
  loop: '''Error!''◊→(∧/(1 17)=⎕ET)/0' ⎕EA '⎕ ← rep readline ''user> '''
