@@ -10,6 +10,7 @@
  →0
 number:
  str ← ⍕form
+ ((str='¯')/str)←'-'
  →0
 seq:
  delim ← ↑((listp form),(vectorp form),(mapp form)) / '()' '[]' '{}'
