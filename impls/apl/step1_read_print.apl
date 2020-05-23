@@ -25,7 +25,7 @@
 ∇
 
 ∇repl
- loop: ⎕ ← rep readline 'user> '
+ loop: '''Error!''◊→(∧/(1 17)=⎕ET)/0' ⎕EA '⎕ ← rep readline ''user> '''
  →loop
 ∇
 
