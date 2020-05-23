@@ -8,14 +8,17 @@
 ∇
 
 ∇ast←env eval_ast ast
- →((symbolp ast),(listp ast))/symbol list
+ →((symbolp ast),(mapp ast),(listp ast)∨(vectorp ast))/do_symbol do_map do_seq
  →0
-symbol:
+do_symbol:
  ('''',(,ast),''' not found') ⎕ES (∼∨/(⊂,ast)≡¨env[;1])/101 3
  ast ← ,↑((⊂,ast)≡¨env[;1])/env[;2]
  →0
-list:
+do_seq:
  ast ← (⊂env)EVAL¨ast
+ →0
+do_map:
+ ast[;2] ← (⊂env)EVAL¨ast[;2]
 ∇
 
 ∇ast←env EVAL ast; op; x; y
