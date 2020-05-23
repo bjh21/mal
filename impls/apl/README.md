@@ -54,6 +54,16 @@ Is an element present?
 Look up 'foo' in hm (assuming it's present):
 ↑((⊂'foo')≡¨hm[;1])/hm[;2]
 
+Environments have to be mutable, so their data are held in global
+variables.  In a variable (or function) an environment is represented
+by an array containing its name and the names of its outer
+environments in order.  Environments can never appear where any other
+type of Mal object can appear, so the fact that they look like lists
+of strings is not a problem.
+
+The data part of an environment is a global variable containing a
+hash-map.
+
 ## Libraries
 
 I think the APL model is that you use )COPY to import from a library
