@@ -105,13 +105,14 @@ epsilon        | `∈`    | U+2208 ELEMENT OF
 down arrow     | `↓`    | U+2193 DOWNWARDS ARROW
 comma bar      | `⍪`    | U+236A APL FUNCTIONAL SYMBOL COMMA BAR
 overbar        | `¯`    | U+00AF MACRON
-equal underbar slash| `≢`| U+2262 NOT IDENTICAL TO
+equal underbar slash|`≢`| U+2262 NOT IDENTICAL TO
 up arrow       | `↑`    | U+2191 UPWARDS ARROW
 up caret       | `∧`	| U+2227 LOGICAL AND
 down caret     | `∨`	| U+2228 LOGICAL OR
 iota           | `⍳`    | U+2373 APL FUNCTIONAL SYMBOL IOTA
 equal slash    | `≠`    | U+2260 NOT EQUAL TO
 tilde          | `∼`    | U+223C TILDE OPERATOR
+slash bar      | `⌿`    | U+233F APL FUNCTIONAL SYMBOL SLASH BAR
 
 If you want to run it on a different APL implementation, you may need
 to translate those characters to different code points.

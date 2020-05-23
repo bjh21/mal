@@ -34,6 +34,12 @@ do_list:
  ast ← x
  →0
 not_def:
+ →(((1 4)⍴'let*')≢↑ast)/not_let
+ env ← env_new env
+ (⊂env)env_set¨⊂[2](((⍴,⊃ast[2])÷2),2)⍴(⊃ast[2])
+ ast ← env EVAL ⊃ast[3]
+ →0
+not_let:
  ast ← env eval_ast ast
  (op x y) ← ast
  ast ← ⍎ 'x ',op,' y'
