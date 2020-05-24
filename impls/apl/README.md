@@ -17,13 +17,26 @@ mal     | APL
 `foo`   | `1 3 ⍴ 'foo'`
 `:foo`  | `1 1 3 ⍴ 'foo'`
 
+Booleans are represented by three-dimensional, one-element numeric arrays:
+
+mal     | APL
+--------|------------
+`true`  | `1 1 1 ⍴ 1`
+`false` | `1 1 1 ⍴ 0`
+
+Nil is represented by an empty two-dimensional numeric array:
+
+mal   | APL
+------|----------
+`nil` | `0 0 ⍴ 0`
+
 Lists are represented by mixed or numeric vectors.
 
 The empty list is an empty numeric (or mixed?) vector.
 
 mal     | APL
 --------|------
-`()`    | `0⍴1`
+`()`    | `0⍴0`
 `(7)`   | `1⍴7`
 `(8 9)` | `8 9`
 
@@ -42,7 +55,7 @@ left column and the values in the right.
 
 mal                         | APL
 ----------------------------|--------------------------------
-`{}`                        | `0 2 ⍴ 1`
+`{}`                        | `0 2 ⍴ 0`
 `{"foo" 1 "bar" 2 "baz" 3}` | `3 2 ⍴ 'foo' 1 'bar' 2 'baz' 3`
 
 Construct a hash-map hm from a list l

@@ -68,8 +68,10 @@ do_hashmap:
 ∇atom ← read_atom; token
  ⍝⍝ extract a number, string, symbol, or keyword from the reader
  token ← reader_next
- → (⍴ '^-?[0-9]+$' ⎕RE token)/number
+ → (⍴ '^-?[0-9]+$' ⎕RE token)/evaluate
+ → ((⊂token) ∈ 'true' 'false' 'nil')/evaluate
  → (':"'=↑token)/keyword,string
+ 
  atom ← S token
  →0
 keyword:
@@ -81,7 +83,7 @@ string:
  token ← ¯1↓1↓token ⍝ Strip quotation marks
  atom ← unescape token
  →0
-number:
+evaluate:
  atom ← ⍎ token
 ∇
 

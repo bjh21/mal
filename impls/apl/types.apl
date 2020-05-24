@@ -33,6 +33,15 @@
  result ← (' '≢↑0⍴form) ∧ (2=↑⍴⍴form) ∧ (2=¯1↑⍴form)
 ∇
 
+∇result ← booleanp form
+ ⍝⍝ Return 1 if form is a mal boolean (true or false), 0 otherwise.
+ result ← (⊂form)≡¨true false
+∇
+∇result ← nilp form
+ ⍝⍝ Return 1 if form is mal nil, 0 otherwise.
+ result ← form≡nil
+∇
+
 ∇symbol ← S string
  ⍝⍝ Reshape a string/symbol/keyword into a symbol
  symbol ← (1,⍴,string)⍴string
@@ -52,5 +61,9 @@
  ⍝⍝ Reshape a list/vector/hash-map into a hash-map
  hashmap ← (((⍴,list)÷2),2)⍴list
 ∇
+
+true ← 1 1 1 ⍴ 1
+false ← 1 1 1 ⍴ 0
+nil ← 0 0 ⍴ 0
 
 )SAVE

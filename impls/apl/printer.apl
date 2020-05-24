@@ -7,7 +7,7 @@
  →(numberp form)/number
  →((stringp form),(symbolp form),(keywordp form))/string symbol keyword
  →((listp form)∨(vectorp form)∨(mapp form))/seq
- str ← '<unprintable>'
+ str ← ↑(((⊂form)≡¨true false nil),1)/'true' 'false' 'nil' '<unprintable>'
  →0
 number:
  str ← ⍕form
