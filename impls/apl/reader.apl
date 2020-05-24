@@ -36,9 +36,8 @@ token_re ← token_re,';.*|[^\s\[\]{}(''"`,;)]+))'
 ∇form ← read_form; next
  ⍝⍝ extract a form from the reader
  next ← reader_peek
- →(next≡,'(')/do_list
- →(next≡,'[')/do_vector
- →(next≡,'{')/do_hashmap
+ →((⊂next)≡¨(,'(')(,'[')(,'{'))/do_list do_vector do_hashmap
+ →((⊂next)≡¨(,'''')(,'`')(,'~')'~@'(,'@'))/do_quote do_qq do_uq do_suq do_deref
  form ← read_atom
  →0
 do_list:
@@ -49,6 +48,27 @@ do_vector:
  →0
 do_hashmap:
  form ← H read_list
+ →0
+do_quote:
+ next ← reader_next
+ form ← (S'quote')(read_form)
+ →0
+do_qq:
+ next ← reader_next
+ form ← (S'quasiquote')(read_form)
+ →0
+do_uq:
+ next ← reader_next
+ form ← (S'unquote')(read_form)
+ →0
+do_suq:
+ next ← reader_next
+ form ← (S'splice-unquote')(read_form)
+ →0
+do_deref:
+ next ← reader_next
+ form ← (S'deref')(read_form)
+ →0
 ∇
 
 ∇list ← read_list; token; form
