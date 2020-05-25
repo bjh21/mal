@@ -1559,11 +1559,11 @@ try self-hosting. Run your step A implementation as normal, but use
 the file argument mode you added in step 6 to run a each of the step
 from the mal implementation:
 ```
-./stepA_mal.qx ../mal/step1_read_print.mal
-./stepA_mal.qx ../mal/step2_eval.mal
+./run ../mal/step1_read_print.mal
+./run ../mal/step2_eval.mal
 ...
-./stepA_mal.qx ../mal/step9_try.mal
-./stepA_mal.qx ../mal/stepA_mal.mal
+./run ../mal/step9_try.mal
+./run ../mal/stepA_mal.mal
 ```
 
 There is a very good chance that you will encounter an error at some
