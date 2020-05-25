@@ -1647,7 +1647,7 @@ implementation.
   * `seq`: takes a list, vector, string, or nil. If an empty list,
     empty vector, or empty string ("") is passed in then nil is
     returned. Otherwise, a list is returned unchanged, a vector is
-    converted into a list, and a string is converted to a list that
+    converted into a list, and a string is converted to a list
     containing the original string split into single character
     strings.
 * For interop with the target language, add this core function:
