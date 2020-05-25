@@ -1,6 +1,6 @@
 ;; Trivial but convenient functions.
 
-;; Integer predecessor (number -> number)
+;; Integer successor (number -> number)
 (def! inc (fn* [a] (+ a 1)))
 
 ;; Integer predecessor (number -> number)
