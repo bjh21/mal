@@ -30,7 +30,7 @@ do_map:
  env env_set key value
 ∇
 
-∇ast←env EVAL ast; op; x; y
+∇ast←env EVAL ast; op; args; fn
  →(listp ast)/do_list
  ast ← env eval_ast ast
  →0
@@ -52,9 +52,19 @@ not_let:
  ast ← ↑¯1↑env eval_ast 1↓ast
  →0
 not_do:
+ →((S'if')≢↑ast)/not_if
+ ast ← ast,⊂nil ⍝ Provide a default 'else' form
+ ast ← env EVAL⊃ast[4-↑env EVAL ⊃ast[2]]
+ →0
+not_if:
+ →((S'fn*')≢↑ast)/not_fn
+ ast ← (1 4)⍴('((⊃fn[1;2])env_new(⊃fn[1;3]),[1.5]args)EVAL⊃fn[1;4]'env),ast[2 3]
+ →0
+not_fn:
  ast ← env eval_ast ast
- (op x y) ← ast
- ast ← ⍎ 'x ',op,' y'
+ fn ← ↑ast
+ args ← 1↓ast
+ ast ← ⍎↑fn
 ∇
 
 ∇x←PRINT x
@@ -78,10 +88,10 @@ not_do:
 ∇
 
 repl_env ← (0⍴0) env_new (0 2)⍴0
-repl_env env_set (S'+') ('+')
-repl_env env_set (S'-') ('-')
-repl_env env_set (S'*') ('×')
-repl_env env_set (S'/') ('div')
+repl_env env_set (⊂S'+'),⊂(1 3)⍴('+/args') 0 0
+repl_env env_set (⊂S'-'),⊂(1 3)⍴('-/args') 0 0
+repl_env env_set (⊂S'*'),⊂(1 3)⍴('×/args') 0 0
+repl_env env_set (⊂S'/'),⊂(1 3)⍴('div/args') 0 0
 
 ∇repl
  loop: '''Error!''◊→(∧/(1 17)=⎕ET)/0' ⎕EA '⎕ ← rep readline ''user> '''

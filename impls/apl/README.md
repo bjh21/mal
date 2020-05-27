@@ -67,8 +67,9 @@ Is an element present?
 Look up 'foo' in hm (assuming it's present):
 ↑((⊂'foo')≡¨hm[;1])/hm[;2]
 
-Functions are represented by a 3-column matrix whose contents are as
-yet undefined.
+Functions are represented by a ≥3-column matrix.  The first element is
+a string that can be passed to `⍎`.  It should expect its arguments in
+a variable called `args`, and a copy of the function in `fn`.
 
 Environments have to be mutable, so their data are held in global
 variables.  In a variable (or function) an environment is represented
