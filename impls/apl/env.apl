@@ -4,6 +4,10 @@ envctr ← 1
 
 ∇env ← env_new outer
  ⍝⍝ create a new environment
+ ⍝ The guide would have this take two additional arguments specifying
+ ⍝ the initial variable bindings, but triadic functions are not very
+ ⍝ APLish and it's easy enough to bind variables later:
+ ⍝   (⊂env)env_set¨⊂[1]binds,[1.5]exprs
  env ← (⊂('ENV∆',(⍕envctr))),outer
  ⍎(↑env),'←(0 2)⍴0'
  envctr ← 1+envctr
