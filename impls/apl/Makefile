@@ -1,5 +1,6 @@
 all: workspaces/step0_repl.xml workspaces/step1_read_print.xml \
-     workspaces/step2_eval.xml workspaces/step3_env.xml
+     workspaces/step2_eval.xml workspaces/step3_env.xml \
+     workspaces/step4_if_fn_do.xml
 
 workspaces/%.xml: %.apl
 	mkdir -p workspaces
@@ -15,6 +16,7 @@ STEP3_DEPS = $(STEP2_DEPS) workspaces/env.xml
 workspaces/step1_read_print.xml: $(STEP1_DEPS)
 workspaces/step2_eval.xml: $(STEP2_DEPS)
 workspaces/step3_env.xml: $(STEP3_DEPS)
+workspaces/step4_if_fn_do.xml: $(STEP3_DEPS)
 
 clean:
 	rm workspaces/*.xml
