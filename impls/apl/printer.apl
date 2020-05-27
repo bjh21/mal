@@ -15,7 +15,7 @@ number:
  →0
 seq:
  delim ← ↑((listp form),(vectorp form),(mapp form)) / '()' '[]' '{}'
- str ← delim[1],(¯1↓∈(⍪pr_str¨,form),' '),delim[2]
+ str ← delim[1],(1↓∈' ',[1.5]pr_str¨,form),delim[2]
  →0
 string:
  str ← '"',(escape ,form),'"'
