@@ -48,6 +48,10 @@ not_def:
  ast ← env EVAL ⊃ast[3]
  →0
 not_let:
+ →((S'do')≢↑ast)/not_do
+ ast ← ↑¯1↑env eval_ast 1↓ast
+ →0
+not_do:
  ast ← env eval_ast ast
  (op x y) ← ast
  ast ← ⍎ 'x ',op,' y'
