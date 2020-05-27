@@ -68,6 +68,12 @@
  hashmap ← (((⍴,list)÷2),2)⍴list
 ∇
 
+∇boolean ← B number
+ ⍝⍝ Convert an APL boolean (0 or 1) to true or false
+ boolean ← 1 1 1 ⍴ number
+∇
+
+
 true ← 1 1 1 ⍴ 1
 false ← 1 1 1 ⍴ 0
 nil ← 0 0 ⍴ 0

@@ -4,6 +4,7 @@
 )COPY reader
 )COPY printer
 )COPY env
+)COPY core
 
 ∇x←READ x
  x←read_str x
@@ -83,15 +84,8 @@ not_fn:
  line ← (⍴ prompt)↓⍞
 ∇
 
-∇q ← a div b
- q ← ⌊a÷b
-∇
-
 repl_env ← (0⍴0) env_new (0 2)⍴0
-repl_env env_set (⊂S'+'),⊂(1 3)⍴('+/args') 0 0
-repl_env env_set (⊂S'-'),⊂(1 3)⍴('-/args') 0 0
-repl_env env_set (⊂S'*'),⊂(1 3)⍴('×/args') 0 0
-repl_env env_set (⊂S'/'),⊂(1 3)⍴('div/args') 0 0
+(⊂repl_env)env_set¨⊂[2]core_ns
 
 ∇repl
  loop: '''Error!''◊→(∧/(1 17)=⎕ET)/0' ⎕EA '⎕ ← rep readline ''user> '''
