@@ -1,4 +1,4 @@
-)WSID step3_env
+)WSID step4_if_fn_do
 
 )COPY types
 )COPY reader
