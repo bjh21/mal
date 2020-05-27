@@ -2,14 +2,14 @@
 
 envctr ← 1
 
-∇env ← env_new outer
+∇env ← outer env_new bindings
  ⍝⍝ create a new environment
- ⍝ The guide would have this take two additional arguments specifying
+ ⍝ The guide would have this take separate "binds" and "exprs" specifying
  ⍝ the initial variable bindings, but triadic functions are not very
- ⍝ APLish and it's easy enough to bind variables later:
- ⍝   (⊂env)env_set¨⊂[1]binds,[1.5]exprs
+ ⍝ APLish so this function expects them already laminated together:
+ ⍝    ... env_new binds,[1.5]exprs
  env ← (⊂('ENV∆',(⍕envctr))),outer
- ⍎(↑env),'←(0 2)⍴0'
+ ⍎(↑env),'←bindings'
  envctr ← 1+envctr
 ∇
 

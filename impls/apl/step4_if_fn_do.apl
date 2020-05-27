@@ -43,7 +43,7 @@ do_list:
  →0
 not_def:
  →((S'let*')≢↑ast)/not_let
- env ← env_new env
+ env ← env env_new (0 2)⍴0
  (⊂env)env_set_eval¨⊂[2]H⊃ast[2]
  ast ← env EVAL ⊃ast[3]
  →0
@@ -77,7 +77,7 @@ not_do:
  q ← ⌊a÷b
 ∇
 
-repl_env ← env_new ⍳0
+repl_env ← (0⍴0) env_new (0 2)⍴0
 repl_env env_set (S'+') ('+')
 repl_env env_set (S'-') ('-')
 repl_env env_set (S'*') ('×')
