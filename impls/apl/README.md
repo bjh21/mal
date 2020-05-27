@@ -67,6 +67,9 @@ Is an element present?
 Look up 'foo' in hm (assuming it's present):
 ↑((⊂'foo')≡¨hm[;1])/hm[;2]
 
+Functions are represented by a 3-column matrix whose contents are as
+yet undefined.
+
 Environments have to be mutable, so their data are held in global
 variables.  In a variable (or function) an environment is represented
 by an array containing its name and the names of its outer

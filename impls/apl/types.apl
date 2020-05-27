@@ -32,6 +32,12 @@
  ⍝⍝ 0 otherwise.
  result ← (' '≢↑0⍴form) ∧ (2=↑⍴⍴form) ∧ (2=¯1↑⍴form)
 ∇
+∇result ← fnp form
+ ⍝⍝ Return 1 if form is a mal function (a non-character matrix, width 3),
+ ⍝⍝ 0 otherwise.
+ result ← (' '≢↑0⍴form) ∧ (2=↑⍴⍴form) ∧ (3=¯1↑⍴form)
+∇
+
 
 ∇result ← booleanp form
  ⍝⍝ Return 1 if form is a mal boolean (true or false), 0 otherwise.
