@@ -55,7 +55,7 @@ not_let:
 not_do:
  →((S'if')≢↑ast)/not_if
  ast ← ast,⊂nil ⍝ Provide a default 'else' form
- ast ← env EVAL⊃ast[4-↑env EVAL ⊃ast[2]]
+ ast ← env EVAL⊃ast[3+(⊂env EVAL ⊃ast[2])∈false nil]
  →0
 not_if:
  →((S'fn*')≢↑ast)/not_fn
