@@ -23,7 +23,15 @@ core_ns ← core_ns, 'list'    'args'
 core_ns ← core_ns, 'list?'   'B listp↑args'
 core_ns ← core_ns, 'empty?'  'B 0=↑⍴,↑args'
 core_ns ← core_ns, 'count'   '↑⍴,↑args'
-core_ns ← core_ns, '='       'B∧/2≡/args'
+∇x ← listify x
+ ⍝⍝ Return x with all (mal) vectors converted to lists
+ →(∼vectorp x)/not_vector
+ x←,x         ⍝ Flatten vectors into lists.
+not_vector:
+ →(1≥≡x)/0    ⍝ Scalars and simple lists can be returned unchanged.
+ x←listify¨x  ⍝ Otherwise recurse.
+∇
+core_ns ← core_ns, '='       'B∧/2≡/listify args'
 core_ns ← core_ns, '<'       'B∧/2</args'
 core_ns ← core_ns, '<='      'B∧/2≤/args'
 core_ns ← core_ns, '>'       'B∧/2>/args'
