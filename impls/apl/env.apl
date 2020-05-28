@@ -2,6 +2,11 @@
 
 envctr ← 1
 
+∇bindings ← binds bind exprs
+ ⍝⍝ construct a list of variable bindings for a new environment
+ bindings ← binds,[1.5]exprs
+∇
+
 ∇env ← outer env_new bindings
  ⍝⍝ create a new environment
  ⍝ The guide would have this take separate "binds" and "exprs" specifying

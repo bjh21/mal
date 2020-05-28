@@ -2,6 +2,16 @@
 
 )COPY types
 
+print_readably ← 1
+
+∇str ← pr_str_u form; print_readably
+ ⍝⍝ convert a single mal form into an unreadable string
+ ⍝ Rather than having an additional "print_readably" argument to pr_str,
+ ⍝ we have this additional entry point.
+ print_readably ← 0
+ str ← pr_str form
+∇
+
 ∇str ← pr_str form; delim
  ⍝⍝ convert a single mal form into a string
  →(numberp form)/number
@@ -18,6 +28,7 @@ seq:
  str ← delim[1],(1↓∈' ',[1.5]pr_str¨,form),delim[2]
  →0
 string:
+ → (∼print_readably)/symbol
  str ← '"',(escape ,form),'"'
  →0
 symbol:

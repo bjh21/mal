@@ -59,7 +59,7 @@ not_do:
  →0
 not_if:
  →((S'fn*')≢↑ast)/not_fn
- ast ← (1 4)⍴('((⊃fn[1;2])env_new(⊃fn[1;3]),[1.5]args)EVAL⊃fn[1;4]'env),ast[2 3]
+ ast ← (1 4)⍴('((⊃fn[1;2])env_new(⊃fn[1;3])bind args)EVAL⊃fn[1;4]'env),ast[2 3]
  →0
 not_fn:
  ast ← env eval_ast ast
