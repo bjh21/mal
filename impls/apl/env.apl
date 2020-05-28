@@ -6,6 +6,7 @@ envctr ← 1
 
 ∇bindings ← binds bind exprs; ampidx
  ⍝⍝ construct a list of variable bindings for a new environment
+ binds ← ,binds
  ampidx ← binds⍳⊂(S'&')
  bindings ← ((ampidx-1)↑binds),[1.5]((ampidx-1)↑exprs)
  →(ampidx>⍴binds)/0
