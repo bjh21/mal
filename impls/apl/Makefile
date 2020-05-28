@@ -8,6 +8,7 @@ workspaces/%.xml: %.apl
 
 workspaces/reader.xml: workspaces/types.xml
 workspaces/printer.xml: workspaces/types.xml
+workspaces/env.xml: workspaces/types.xml
 workspaces/core.xml: workspaces/types.xml
 
 STEP1_DEPS = workspaces/reader.xml workspaces/printer.xml

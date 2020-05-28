@@ -1,10 +1,15 @@
 )WSID env
 
+)COPY types
+
 envctr ← 1
 
-∇bindings ← binds bind exprs
+∇bindings ← binds bind exprs; ampidx
  ⍝⍝ construct a list of variable bindings for a new environment
- bindings ← binds,[1.5]exprs
+ ampidx ← binds⍳⊂(S'&')
+ bindings ← ((ampidx-1)↑binds),[1.5]((ampidx-1)↑exprs)
+ →(ampidx>⍴binds)/0
+ bindings ← bindings,[1](binds[ampidx+1],⊂(ampidx-1)↓exprs)
 ∇
 
 ∇env ← outer env_new bindings
