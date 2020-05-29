@@ -97,7 +97,14 @@ repl_env env_set (S'eval') (CF'repl_env EVAL↑args')
 dummy ← rep '(def! not (fn* (a) (if a false true)))'
 dummy ← rep '(def! load-file (fn* (f) (eval (read-string (str "(do " (slurp f) "\nnil)")))))'
 
-∇repl
+∇repl; args
+ args ← ((⎕ARG⍳⊂'--')↓⎕ARG)
+ repl_env env_set (S'*FILE*') (↑args)
+ repl_env env_set (S'*ARGV*') (1↓args)
+ →(0=⍴args)/loop
+ dummy ← rep '(load-file *FILE*)'
+ ⍝ We'd like to exit here, but I can't find a way to do that.
+ →0
  loop: '''Error!''◊→(∧/(1 17)=⎕ET)/0' ⎕EA '⎕ ← rep readline ''user> '''
 ⍝ loop: ⎕ ← rep readline 'user> '
  →loop
