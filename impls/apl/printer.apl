@@ -16,6 +16,7 @@ print_readably ← 1
  ⍝⍝ convert a single mal form into a string
  →(numberp form)/number
  →((stringp form),(symbolp form),(keywordp form))/string symbol keyword
+ →(atomp form)/atom
  →((listp form)∨(vectorp form)∨(mapp form))/seq
  str ← ↑(((⊂form)≡¨true false nil),1)/'true' 'false' 'nil' '<unprintable>'
  →0
@@ -36,6 +37,9 @@ symbol:
  →0
 keyword:
  str ← ':',,form
+ →0
+atom:
+ str ← '(atom ',(pr_str ⍎,form),')'
  →0
 ∇
 

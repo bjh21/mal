@@ -93,7 +93,9 @@ not_malfn:
 
 repl_env ← (0⍴0) env_new (0 2)⍴0
 (⊂repl_env)env_set¨⊂[2]core_ns
+repl_env env_set (S'eval') (CF'repl_env EVAL↑args')
 dummy ← rep '(def! not (fn* (a) (if a false true)))'
+dummy ← rep '(def! load-file (fn* (f) (eval (read-string (str "(do " (slurp f) "\nnil)")))))'
 
 ∇repl
  loop: '''Error!''◊→(∧/(1 17)=⎕ET)/0' ⎕EA '⎕ ← rep readline ''user> '''

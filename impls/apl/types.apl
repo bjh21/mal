@@ -17,6 +17,10 @@
  ⍝⍝ Return 1 if form is a mal keyword (a character cube), 0 otherwise.
  result ← (' '≡↑0⍴form) ∧ (3=↑⍴⍴form)
 ∇
+∇result ← atomp form
+ ⍝⍝ Return 1 if form is a mal atom (a character 4-cube), 0 otherwise.
+ result ← (' '≡↑0⍴form) ∧ (4=↑⍴⍴form)
+∇
 
 ∇result ← listp form
  ⍝⍝ Return 1 if form is a mal list (a non-character vector), 0 otherwise.
@@ -77,5 +81,14 @@
 true ← 1 1 1 ⍴ 1
 false ← 1 1 1 ⍴ 0
 nil ← 0 0 ⍴ 0
+
+atomctr ← 1
+
+∇atom ← atom_new content
+ atom ← 'ATOM∆',(⍕atomctr)
+ atomctr ← 1+atomctr
+ atom ← (1 1 1,⍴,atom)⍴atom
+ ⍎(,atom),'←content'
+∇
 
 )SAVE
