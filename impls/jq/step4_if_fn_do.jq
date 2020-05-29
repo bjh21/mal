@@ -455,7 +455,7 @@ def EVAL(env):
                 (
                     .value | select(.[0].value == "fn*") as $value |
                         # we can't do what the guide says, so we'll skip over this
-                        # and ues the later implementation
+                        # and use the later implementation
                         # (fn* args body)
                         $value[1].value | map(.value) as $binds | {
                             kind: "function",
