@@ -23,15 +23,18 @@ core_ns ← core_ns, 'list'    'args'
 core_ns ← core_ns, 'list?'   'B listp↑args'
 core_ns ← core_ns, 'empty?'  'B 0=↑⍴,↑args'
 core_ns ← core_ns, 'count'   '↑⍴,↑args'
-∇x ← listify x
- ⍝⍝ Return x with all (mal) vectors converted to lists
+∇x ← eq_prep x
+ ⍝⍝ Canonicalise a mal data structure so that APL ≡ correctly implements mal =
  →(∼vectorp x)/not_vector
  x←,x         ⍝ Flatten vectors into lists.
 not_vector:
+ →((' '≡↑0⍴x)∨(0≠⍴,x))/not_empty
+ x←(⍴x)⍴0     ⍝ Make sure all empty lists/vectors/hash-maps have the same type
+not_empty:
  →(1≥≡x)/0    ⍝ Scalars and simple lists can be returned unchanged.
- x←listify¨x  ⍝ Otherwise recurse.
+ x←eq_prep¨x  ⍝ Otherwise recurse.
 ∇
-core_ns ← core_ns, '='       'B∧/2≡/listify args'
+core_ns ← core_ns, '='       'B∧/2≡/eq_prep args'
 core_ns ← core_ns, '<'       'B∧/2</args'
 core_ns ← core_ns, '<='      'B∧/2≤/args'
 core_ns ← core_ns, '>'       'B∧/2>/args'
