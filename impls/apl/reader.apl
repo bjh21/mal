@@ -25,8 +25,8 @@
  form ← read_form
 ∇
 
-token_re ← '\G(?:[\s,]*(~@|[\[\]{}()''`~^@]|"(?:\\.|[^\\"])*"?|'
-token_re ← token_re,';.*|[^\s\[\]{}(''"`,;)]+))'
+token_re ← '\G(?:;.*\n|[\s,])*(~@|[\[\]{}()''`~^@]|"(?:\\.|[^\\"])*"?|'
+token_re ← token_re,'[^\s\[\]{}(''"`,;)]+)'
 
 ∇tokens ← tokenize str
  ⍝⍝ split a string into a vector of tokens
