@@ -143,6 +143,7 @@ dist_EXCLUDES += guile io julia matlab swift
 
 
 # Extra options to pass to runtest.py
+apl_TEST_OPTS = --test-timeout 180
 bbc-basic_TEST_OPTS = --test-timeout 60
 guile_TEST_OPTS = --test-timeout 120
 io_TEST_OPTS = --test-timeout 120

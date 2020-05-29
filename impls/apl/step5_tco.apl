@@ -32,6 +32,7 @@ do_map:
 ∇
 
 ∇ast←env EVAL ast; op; args; fn
+tco:
  →(listp ast)/do_list
  ast ← env eval_ast ast
  →0
@@ -46,17 +47,18 @@ not_def:
  →((S'let*')≢↑ast)/not_let
  env ← env env_new (0 2)⍴0
  (⊂env)env_set_eval¨⊂[2]H⊃ast[2]
- ast ← env EVAL ⊃ast[3]
- →0
+ ast ← ⊃ast[3]
+ →tco
 not_let:
  →((S'do')≢↑ast)/not_do
- ast ← ↑¯1↑env eval_ast 1↓ast
- →0
+ dummy ← env eval_ast 1↓¯1↓ast
+ ast ← ↑¯1↑ast
+ →tco
 not_do:
  →((S'if')≢↑ast)/not_if
  ast ← ast,⊂nil ⍝ Provide a default 'else' form
- ast ← env EVAL⊃ast[3+(⊂env EVAL ⊃ast[2])∈false nil]
- →0
+ ast ← ⊃ast[3+(⊂env EVAL ⊃ast[2])∈false nil]
+ →tco
 not_if:
  →((S'fn*')≢↑ast)/not_fn
  ast ← (1 4)⍴('((⊃fn[1;2])env_new(⊃fn[1;3])bind args)EVAL⊃fn[1;4]'env),ast[2 3]
@@ -65,6 +67,11 @@ not_fn:
  ast ← env eval_ast ast
  fn ← ↑ast
  args ← 1↓ast
+ →((1 4)≢⍴fn)/not_malfn
+ ast ← ⊃fn[1;4]
+ env ← (⊃fn[1;2])env_new(⊃fn[1;3])bind args
+ →tco
+not_malfn:
  ast ← ⍎↑fn
 ∇
 
