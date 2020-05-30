@@ -24,7 +24,7 @@ do_map:
 ∇
 
 ∇result ← is_pair form
- result ← (listp form)∧(0≠↑⍴form)
+ result ← (0≠↑⍴form)∧(listp form)∨(vectorp form)
 ∇
 
 ∇ast ← quasiquote ast
@@ -35,13 +35,13 @@ do_pair:
  →((S'unquote')≡↑ast)/do_unquote
  →(is_pair ↑ast)/do_pairpair
 do_default:
- ast ← (S'cons')(quasiquote ↑ast)(quasiquote 1↓ast)
+ ast ← (S'cons')(quasiquote ↑ast)(quasiquote 1↓,ast)
  →0
 do_pairpair:
  →((S'splice-unquote')≡↑↑ast)/do_splice
  →do_default
 do_unquote:
- ast ← ↑1↓ast
+ ast ← ↑1↓,ast
  →0
 do_splice:
  ast ← (S'concat')(↑1↓↑ast)(quasiquote 1↓ast)
