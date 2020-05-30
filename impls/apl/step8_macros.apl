@@ -47,6 +47,20 @@ do_splice:
  ast ← (S'concat')(↑1↓↑ast)(quasiquote 1↓ast)
 ∇
 
+∇result ← env is_macro_call ast
+ result ← (listp ast)∧(symbolp ↑ast)∧(0≠↑⍴(env env_find ↑ast))
+ →(∼result)/0
+ result ← (macrop env env_get ↑ast)
+∇
+
+∇ast ← env macroexpand ast; fn
+again:
+ →(∼env is_macro_call ast)/0
+ fn ← env env_get ↑ast
+ args ← 1↓ast
+ ast ← ⍎↑fn
+∇
+
 ∇env env_set_eval kv; key; value
  ⍝⍝ Set environment to value evaluated in that environment.
  ⍝ This is a helper for let*.
@@ -58,10 +72,13 @@ do_splice:
 ∇ast←env EVAL ast; op; args; fn
 tco:
  →(listp ast)/do_list
+not_list:
  ast ← env eval_ast ast
  →0
 do_list:
  →(0=⍴ast)/0
+ ast ← env macroexpand ast
+ →(∼listp ast)/not_list
  →((S'def!')≢↑ast)/not_def
  x ← env EVAL ⊃ast[3]
  env env_set ast[2], ⊂x
@@ -96,6 +113,19 @@ not_quote:
  ast ← quasiquote ↑1↓ast
  →tco
 not_quasiquote:
+ →((S'defmacro!')≢↑ast)/not_defmacro
+ x ← env EVAL ⊃ast[3]
+ →(macrop x)/already_macro
+ (↑x) ← '''MACRO''⊢',↑x
+already_macro:
+ env env_set ast[2], ⊂x
+ ast ← x
+ →0 
+not_defmacro:
+ →((S'macroexpand')≢↑ast)/not_macroexpand
+ ast ← env macroexpand ↑1↓ast
+ →0
+not_macroexpand:
  ast ← env eval_ast ast
  fn ← ↑ast
  args ← 1↓ast
