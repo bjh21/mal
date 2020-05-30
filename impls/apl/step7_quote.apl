@@ -64,6 +64,10 @@ not_if:
  ast ← (1 4)⍴('((⊃fn[1;2])env_new(⊃fn[1;3])bind args)EVAL⊃fn[1;4]'env),ast[2 3]
  →0
 not_fn:
+ →((S'quote')≢↑ast)/not_quote
+ ast ← ↑1↓ast
+ →0
+not_quote:
  ast ← env eval_ast ast
  fn ← ↑ast
  args ← 1↓ast
