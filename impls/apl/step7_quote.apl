@@ -23,6 +23,30 @@ do_map:
  ast[;2] ← (⊂env)EVAL¨ast[;2]
 ∇
 
+∇result ← is_pair form
+ result ← (listp form)∧(0≠↑⍴form)
+∇
+
+∇ast ← quasiquote ast
+ →(is_pair ast)/do_pair
+ ast ← (S'quote')ast
+ →0
+do_pair:
+ →((S'unquote')≡↑ast)/do_unquote
+ →(is_pair ↑ast)/do_pairpair
+do_default:
+ ast ← (S'cons')(quasiquote ↑ast)(quasiquote 1↓ast)
+ →0
+do_pairpair:
+ →((S'splice-unquote')≡↑↑ast)/do_splice
+ →do_default
+do_unquote:
+ ast ← ↑1↓ast
+ →0
+do_splice:
+ ast ← (S'concat')(↑1↓↑ast)(quasiquote 1↓ast)
+∇
+
 ∇env env_set_eval kv; key; value
  ⍝⍝ Set environment to value evaluated in that environment.
  ⍝ This is a helper for let*.
@@ -68,6 +92,10 @@ not_fn:
  ast ← ↑1↓ast
  →0
 not_quote:
+ →((S'quasiquote')≢↑ast)/not_quasiquote
+ ast ← quasiquote ↑1↓ast
+ →tco
+not_quasiquote:
  ast ← env eval_ast ast
  fn ← ↑ast
  args ← 1↓ast
