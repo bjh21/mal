@@ -1,7 +1,7 @@
 all: workspaces/step0_repl.xml workspaces/step1_read_print.xml \
      workspaces/step2_eval.xml workspaces/step3_env.xml \
      workspaces/step4_if_fn_do.xml workspaces/step5_tco.xml \
-     workspaces/step6_file.xml
+     workspaces/step6_file.xml workspaces/step7_quote.xml
 
 workspaces/%.xml: %.apl
 	mkdir -p workspaces
@@ -23,6 +23,7 @@ workspaces/step3_env.xml: $(STEP3_DEPS)
 workspaces/step4_if_fn_do.xml: $(STEP4_DEPS)
 workspaces/step5_tco.xml: $(STEP4_DEPS)
 workspaces/step6_file.xml: $(STEP4_DEPS)
+workspaces/step7_quote.xml: $(STEP4_DEPS)
 
 clean:
 	rm workspaces/*.xml
