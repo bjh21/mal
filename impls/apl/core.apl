@@ -49,6 +49,8 @@ core_ns ← core_ns, 'reset!'      '⍎(,↑args),''←↑1↓args'''
  result ← ⍎↑fn
 ∇
 core_ns ← core_ns, 'swap!' '⍎(,↑args),''←(↑1↓args)apply(⊂⍎(,↑args)),2↓args'''
+core_ns ← core_ns, 'cons'        '(¯1↓args),(↑¯1↑args)'
+core_ns ← core_ns, 'concat'      '⊃,/args'
 
 core_ns ← H core_ns
 core_ns[;1] ← S ¨core_ns[;1]
