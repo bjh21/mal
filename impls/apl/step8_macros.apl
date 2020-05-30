@@ -158,6 +158,7 @@ repl_env ← (0⍴0) env_new (0 2)⍴0
 repl_env env_set (S'eval') (CF'repl_env EVAL↑args')
 dummy ← rep '(def! not (fn* (a) (if a false true)))'
 dummy ← rep '(def! load-file (fn* (f) (eval (read-string (str "(do " (slurp f) "\nnil)")))))'
+dummy ← rep '(defmacro! cond (fn* (& xs) (if (> (count xs) 0) (list ''if (first xs) (if (> (count xs) 1) (nth xs 1) (throw "odd number of forms to cond")) (cons ''cond (rest (rest xs)))))))'
 
 ∇repl; args
  args ← ((⎕ARG⍳⊂'--')↓⎕ARG)
