@@ -46,7 +46,7 @@ envctr ← 1
 ∇value ← env env_get key
  ⍝⍝ get the value of a key in an environment
  env ← env env_find key
- ('''',(,key),''' not found') ⎕ES (0=↑⍴env)/101 3
+ error (0=↑⍴env)/('''',(,key),''' not found')
  value ← ↑((⊂key)≡¨(⍎↑env)[;1])/(⍎↑env)[;2]
 ∇
 

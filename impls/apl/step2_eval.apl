@@ -12,7 +12,7 @@
  →((symbolp ast),(mapp ast),(listp ast)∨(vectorp ast))/do_symbol do_map do_seq
  →0
 do_symbol:
- ('''',(,ast),''' not found') ⎕ES (∼∨/(⊂,ast)≡¨env[;1])/101 3
+ error (∼∨/(⊂,ast)≡¨env[;1])/('''',(,ast),''' not found')
  ast ← ,↑((⊂,ast)≡¨env[;1])/env[;2]
  →0
 do_seq:

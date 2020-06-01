@@ -15,7 +15,7 @@
 
 ∇next ← reader_peek
  ⍝⍝ return the next token without removing it
- 'Unexpected end of input' ⎕ES (0=⍴reader)/101 1
+ error (0=⍴reader)/'Unexpected end of input'
  next ← ↑reader
 ∇
 
@@ -99,7 +99,7 @@ keyword:
  atom ← K token
  →0
 string:
- 'Unexpected end of input in string' ⎕ES ('"'≠¯1↑token)/101 2
+ error ('"'≠¯1↑token)/'Unexpected end of input in string'
  token ← ¯1↓1↓token ⍝ Strip quotation marks
  atom ← unescape token
  →0
@@ -117,7 +117,7 @@ evaluate:
  ⍝⍝ str is token with the \-escapes removed
  →(∼'\'∈token)/skip ⍝ Don't unescape strings without '\' (GNU APL bug)
  bsidx ← 1+(⊃ '\\.|\\$' ⎕RE['g↓'] token)[;1] ⍝ Indices of quoting '\'
- 'Unexpected end of input in string' ⎕ES ((⍴token)=¯1↑bsidx)/101 2
+ error ((⍴token)=¯1↑bsidx)/'Unexpected end of input in string'
  token[1+bsidx] ← unescape1¨token[1+bsidx]   ⍝ Replace escaped chars
  token[bsidx] ← ⊂''			     ⍝ Strip backslashes
 skip:

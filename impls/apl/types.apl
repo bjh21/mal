@@ -96,4 +96,13 @@ atomctr ← 1
  ⍎(,atom),'←content'
 ∇
 
+∇error e
+ ⍝⍝ Throw the string e, or don't if e is empty
+ ⍝ This is intended for generating exceptions in the implementation.
+ ⍝ The "throw" core function is implemented separately.
+ →(0=⍴e)/0
+ current_exception ← e
+ e ⎕ES 101 1
+∇
+
 )SAVE

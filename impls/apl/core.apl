@@ -54,6 +54,7 @@ core_ns ← core_ns, 'concat'      '⊃,/,¨args,⊂0⍴0'
 core_ns ← core_ns, 'nth'         '⊃(,↑args)[1+↑1↓args]'
 core_ns ← core_ns, 'first'       '↑(,↑args),⊂nil'
 core_ns ← core_ns, 'rest'        '1↓,↑args'
+core_ns ← core_ns, 'throw'       '''mal exn''⎕ES 101 1⊣current_exception←↑args'
 
 core_ns ← H core_ns
 core_ns[;1] ← S ¨core_ns[;1]
