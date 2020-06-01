@@ -57,6 +57,10 @@ core_ns ← core_ns, 'rest'        '1↓,↑args'
 core_ns ← core_ns, 'throw'       '''mal exn''⎕ES 101 1⊣current_exception←↑args'
 core_ns ← core_ns, 'apply'       '(↑args)apply(1↓¯1↓args),(↑¯1↑,¨args)'
 core_ns ← core_ns, 'map'         '(⊂↑args)apply¨⊂[2]⍪↑1↓args'
+core_ns ← core_ns, 'nil?'        'B nil≡↑args'
+core_ns ← core_ns, 'true?'       'B true≡↑args'
+core_ns ← core_ns, 'false?'      'B false≡↑args'
+core_ns ← core_ns, 'symbol?'     'B symbolp↑args'
 
 core_ns ← H core_ns
 core_ns[;1] ← S ¨core_ns[;1]
