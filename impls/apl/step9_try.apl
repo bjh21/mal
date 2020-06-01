@@ -69,7 +69,7 @@ again:
  env env_set key value
 ∇
 
-∇ast←env EVAL ast; op; args; fn
+∇ast←env EVAL ast; op; args; fn; rc; et; r
 tco:
  →(listp ast)/do_list
 not_list:
@@ -126,6 +126,21 @@ not_defmacro:
  ast ← env macroexpand ↑1↓ast
  →0
 not_macroexpand:
+ →((S'try*')≢↑ast)/not_try
+ (rc et r) ← ⎕EC 'env EVAL ⊃ast[2]'
+ →(0=rc)/do_catch
+ ast ← r
+ →0
+do_catch:
+ r[1;] ⎕ES ((3<⍴ast)/et)  ⍝ Re-throw if there's no catch* clause
+ ast ← ⊃ast[3]
+ →((101 1)≡et)/native_exception
+ current_exception ← H((K'em') r[1;] (K'et') et)
+native_exception:
+ env ← env env_new (1 2)⍴(⊃ast[2]) current_exception
+ ast ← ⊃ast[3]
+ →tco
+not_try:
  ast ← env eval_ast ast
  fn ← ↑ast
  args ← 1↓ast
