@@ -61,6 +61,14 @@ core_ns ← core_ns, 'nil?'        'B nil≡↑args'
 core_ns ← core_ns, 'true?'       'B true≡↑args'
 core_ns ← core_ns, 'false?'      'B false≡↑args'
 core_ns ← core_ns, 'symbol?'     'B symbolp↑args'
+core_ns ← core_ns, 'symbol'      'S↑args'
+core_ns ← core_ns, 'keyword'     'K↑args'
+core_ns ← core_ns, 'keyword?'    'B keywordp↑args'
+core_ns ← core_ns, 'vector'      'V args'
+core_ns ← core_ns, 'vector?'     'B vectorp↑args'
+core_ns ← core_ns, 'sequential?' 'B(listp↑args)∨(vectorp↑args)'
+core_ns ← core_ns, 'hash-map'    'H args'
+core_ns ← core_ns, 'map?'        'B mapp↑args'
 
 core_ns ← H core_ns
 core_ns[;1] ← S ¨core_ns[;1]
