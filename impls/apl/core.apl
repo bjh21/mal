@@ -70,6 +70,7 @@ core_ns ← core_ns, 'sequential?' 'B(listp↑args)∨(vectorp↑args)'
 core_ns ← core_ns, 'hash-map'    'H args'
 core_ns ← core_ns, 'map?'        'B mapp↑args'
 
+core_ns ← core_ns, 'dissoc'      '(∼∨/(↑args)[;1]∘.≡(2⊃args))⌿↑args'
 core_ns ← core_ns, 'get'         '↑(((⊂2⊃args)≡¨(↑args)[;1])/(↑args)[;2]),⊂nil'
 core_ns ← core_ns, 'contains?'   'B ∨/(⊂2⊃args)≡¨(↑args)[;1]'
 core_ns ← core_ns, 'keys'        '(↑args)[;1]'
