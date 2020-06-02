@@ -49,7 +49,7 @@ core_ns ← core_ns, 'reset!'      '⍎(,↑args),''←2⊃args'''
  result ← ⍎↑fn
 ∇
 core_ns ← core_ns, 'swap!' '⍎(,↑args),''←(2⊃args)apply(⊂⍎(,↑args)),2↓args'''
-core_ns ← core_ns, 'cons'        '(¯1↓args),(↑¯1↑,¨args)'
+core_ns ← core_ns, 'cons'        '(¯1↓args),,↑¯1↑args'
 core_ns ← core_ns, 'concat'      '⊃,/,¨args,⊂0⍴0'
 core_ns ← core_ns, 'nth'         '(1+2⊃args)⊃,↑args'
 core_ns ← core_ns, 'first'       '↑(,↑args),⊂nil'
