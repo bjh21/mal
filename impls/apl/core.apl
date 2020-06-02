@@ -69,12 +69,12 @@ core_ns ← core_ns, 'vector?'     'B vectorp↑args'
 core_ns ← core_ns, 'sequential?' 'B(listp↑args)∨(vectorp↑args)'
 core_ns ← core_ns, 'hash-map'    'H args'
 core_ns ← core_ns, 'map?'        'B mapp↑args'
-core_ns ← core_ns, 'assoc'  '(H 1↓args),[1](∼(↑args)[;1]∈(H 1↓args)[;1])⌿↑args'
-core_ns ← core_ns, 'dissoc'      '(∼(↑args)[;1]∈1↓args)⌿↑args'
-core_ns ← core_ns, 'get'         '↑(((⊂2⊃args)≡¨(↑args)[;1])/(↑args)[;2]),⊂nil'
-core_ns ← core_ns, 'contains?'   'B (⊂2⊃args)∈(↑args)[;1]'
-core_ns ← core_ns, 'keys'        '(↑args)[;1]'
-core_ns ← core_ns, 'vals'        '(↑args)[;2]'
+core_ns ← core_ns, 'assoc' '(H 1↓args),[1](∼(H↑args)[;1]∈(H 1↓args)[;1])⌿H↑args'
+core_ns ← core_ns, 'dissoc'      '(∼(H↑args)[;1]∈1↓args)⌿H↑args'
+core_ns ← core_ns, 'get'       '↑(((⊂2⊃args)≡¨(H↑args)[;1])/(H↑args)[;2]),⊂nil'
+core_ns ← core_ns, 'contains?'   'B (⊂2⊃args)∈(H↑args)[;1]'
+core_ns ← core_ns, 'keys'        '(H↑args)[;1]'
+core_ns ← core_ns, 'vals'        '(H↑args)[;2]'
 
 core_ns ← H core_ns
 core_ns[;1] ← S ¨core_ns[;1]
