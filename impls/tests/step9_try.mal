@@ -20,7 +20,7 @@
 
 ;; Make sure error from core can be caught
 (try* (nth () 1) (catch* exc (prn "exc is:" exc)))
-;/"exc is:".*(length|range|[Bb]ounds|beyond).*
+;/"exc is:".*(length|range|[Bb]ounds|beyond|INDEX).*
 ;=>nil
 
 (try* (throw "my exception") (catch* exc (do (prn "exc:" exc) 7)))
