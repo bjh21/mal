@@ -129,7 +129,7 @@ repl_env env_set (S'eval') (CF'repl_env EVAL↑args')
 dummy ← rep '(def! not (fn* (a) (if a false true)))'
 dummy ← rep '(def! load-file (fn* (f) (eval (read-string (str "(do " (slurp f) "\nnil)")))))'
 
-∇repl; args
+∇repl; args; rc; et; r
  args ← ((⎕ARG⍳⊂'--')↓⎕ARG)
  repl_env env_set (S'*FILE*') (↑args)
  repl_env env_set (S'*ARGV*') (1↓args)
@@ -137,8 +137,13 @@ dummy ← rep '(def! load-file (fn* (f) (eval (read-string (str "(do " (slurp f)
  dummy ← rep '(load-file *FILE*)'
  ⍝ We'd like to exit here, but I can't find a way to do that.
  →0
- loop: '''Error!''◊→(∧/(1 17)=⎕ET)/0' ⎕EA '⎕ ← rep readline ''user> '''
-⍝ loop: ⎕ ← rep readline 'user> '
+loop: (rc et r) ← ⎕EC '⎕ ← rep readline ''user> '''
+ →(0≠rc)/loop
+ →((1 17)≡et)/0 ⍝ Exit on interrupt
+ →((101 1)≡et)/native_exception
+ current_exception ← H((K'message') r[1;] (K'et') et)
+native_exception:
+ 'Uncaught exception: ',pr_str current_exception
  →loop
 ∇
 

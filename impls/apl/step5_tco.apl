@@ -95,9 +95,14 @@ repl_env ← (0⍴0) env_new (0 2)⍴0
 (⊂repl_env)env_set¨⊂[2]core_ns
 dummy ← rep '(def! not (fn* (a) (if a false true)))'
 
-∇repl
- loop: '''Error!''◊→(∧/(1 17)=⎕ET)/0' ⎕EA '⎕ ← rep readline ''user> '''
-⍝ loop: ⎕ ← rep readline 'user> '
+∇repl; rc; et; r
+loop: (rc et r) ← ⎕EC '⎕ ← rep readline ''user> '''
+ →(0≠rc)/loop
+ →((1 17)≡et)/0 ⍝ Exit on interrupt
+ →((101 1)≡et)/native_exception
+ current_exception ← H((K'message') r[1;] (K'et') et)
+native_exception:
+ 'Uncaught exception: ',pr_str current_exception
  →loop
 ∇
 
