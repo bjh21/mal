@@ -75,6 +75,7 @@ core_ns ← core_ns, 'get'       '↑(((⊂2⊃args)≡¨(H↑args)[;1])/(H↑ar
 core_ns ← core_ns, 'contains?'   'B (⊂2⊃args)∈(H↑args)[;1]'
 core_ns ← core_ns, 'keys'        '(H↑args)[;1]'
 core_ns ← core_ns, 'vals'        '(H↑args)[;2]'
+core_ns ← core_ns, 'readline'    '⍞←↑args◊(⍴↑args)↓⍞'
 
 core_ns ← H core_ns
 core_ns[;1] ← S ¨core_ns[;1]
