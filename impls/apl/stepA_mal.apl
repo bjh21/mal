@@ -171,6 +171,7 @@ not_malfn:
 repl_env ← (0⍴0) env_new (0 2)⍴0
 (⊂repl_env)env_set¨⊂[2]core_ns
 repl_env env_set (S'eval') (CF'repl_env EVAL↑args')
+repl_env env_set (S'*host-language*') 'APL'
 dummy ← rep '(def! not (fn* (a) (if a false true)))'
 dummy ← rep '(def! load-file (fn* (f) (eval (read-string (str "(do " (slurp f) "\nnil)")))))'
 dummy ← rep '(defmacro! cond (fn* (& xs) (if (> (count xs) 0) (list ''if (first xs) (if (> (count xs) 1) (nth xs 1) (throw "odd number of forms to cond")) (cons ''cond (rest (rest xs)))))))'
@@ -179,10 +180,11 @@ dummy ← rep '(defmacro! cond (fn* (& xs) (if (> (count xs) 0) (list ''if (firs
  args ← ((⎕ARG⍳⊂'--')↓⎕ARG)
  repl_env env_set (S'*FILE*') (↑args)
  repl_env env_set (S'*ARGV*') (1↓args)
- →(0=⍴args)/loop
+ →(0=⍴args)/banner
  dummy ← rep '(load-file *FILE*)'
  ⍝ We'd like to exit here, but I can't find a way to do that.
  →0
+banner: dummy ← rep '(println (str "Mal [" *host-language* "]"))'
 loop: (rc et r) ← ⎕EC '⎕ ← rep readline ''user> '''
  →(0≠rc)/loop
  →(1 17≡et)/0 ⍝ Exit on interrupt
