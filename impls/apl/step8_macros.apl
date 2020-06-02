@@ -129,7 +129,7 @@ not_macroexpand:
  ast ← env eval_ast ast
  fn ← ↑ast
  args ← 1↓ast
- →((1 4)≢⍴fn)/not_malfn
+ →(1 4≢⍴fn)/not_malfn
  ast ← ⊃fn[1;4]
  env ← (⊃fn[1;2])env_new(⊃fn[1;3])bind args
  →tco
@@ -170,8 +170,8 @@ dummy ← rep '(defmacro! cond (fn* (& xs) (if (> (count xs) 0) (list ''if (firs
  →0
 loop: (rc et r) ← ⎕EC '⎕ ← rep readline ''user> '''
  →(0≠rc)/loop
- →((1 17)≡et)/0 ⍝ Exit on interrupt
- →((101 1)≡et)/native_exception
+ →(1 17≡et)/0 ⍝ Exit on interrupt
+ →(101 1≡et)/native_exception
  current_exception ← H((K'message') r[1;] (K'et') et)
 native_exception:
  'Uncaught exception: ',pr_str current_exception
