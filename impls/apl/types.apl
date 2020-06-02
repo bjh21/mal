@@ -40,6 +40,8 @@
  ⍝⍝ Return 1 if form is a mal function (a non-character matrix, width ≥3),
  ⍝⍝ 0 otherwise.
  result ← (' '≢↑0⍴form) ∧ (2=↑⍴⍴form) ∧ (3≤¯1↑⍴form)
+ →(0=result)/0
+ result ← result ∧ ('''MACRO'''≢7↑↑form)
 ∇
 ∇result ← macrop form
  ⍝⍝ Return 1 if form is a mal macro, 0 otherwise.

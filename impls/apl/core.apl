@@ -79,11 +79,12 @@ core_ns ← core_ns, 'readline'    '⍞←↑args◊(⍴↑args)↓⍞'
 core_ns ← core_ns, 'time-ms'     'error ''time-ms not implemented'''
 core_ns ← core_ns, 'meta'        'error ''meta not implemented'''
 core_ns ← core_ns, 'with-meta'   'error ''with-meta not implemented'''
-core_ns ← core_ns, 'fn?'         'error ''fn? not implemented'''
-core_ns ← core_ns, 'string?'     'error ''string? not implemented'''
-core_ns ← core_ns, 'number?'     'error ''number? not implemented'''
+core_ns ← core_ns, 'fn?'         'B fnp↑args'
+core_ns ← core_ns, 'string?'     'B stringp↑args'
+core_ns ← core_ns, 'number?'     'B numberp↑args'
 core_ns ← core_ns, 'seq'         'error ''seq not implemented'''
 core_ns ← core_ns, 'conj'        'error ''conj not implemented'''
+core_ns ← core_ns, 'macro?'      'B macrop↑args'
 
 core_ns ← H core_ns
 core_ns[;1] ← S ¨core_ns[;1]
