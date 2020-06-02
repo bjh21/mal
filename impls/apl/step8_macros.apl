@@ -80,15 +80,15 @@ do_list:
  ast ← env macroexpand ast
  →(∼listp ast)/not_list
  →((S'def!')≢↑ast)/not_def
- x ← env EVAL ⊃ast[3]
- env env_set ast[2], ⊂x
+ x ← env EVAL 3⊃ast
+ env env_set (2⊃ast) x
  ast ← x
  →0
 not_def:
  →((S'let*')≢↑ast)/not_let
  env ← env env_new (0 2)⍴0
- (⊂env)env_set_eval¨⊂[2]H⊃ast[2]
- ast ← ⊃ast[3]
+ (⊂env)env_set_eval¨⊂[2]H 2⊃ast
+ ast ← 3⊃ast
  →tco
 not_let:
  →((S'do')≢↑ast)/not_do
@@ -98,7 +98,7 @@ not_let:
 not_do:
  →((S'if')≢↑ast)/not_if
  ast ← ast,⊂nil ⍝ Provide a default 'else' form
- ast ← ⊃ast[3+(⊂env EVAL ⊃ast[2])∈false nil]
+ ast ← (3+(⊂env EVAL 2⊃ast)∈false nil)⊃ast
  →tco
 not_if:
  →((S'fn*')≢↑ast)/not_fn
@@ -106,24 +106,24 @@ not_if:
  →0
 not_fn:
  →((S'quote')≢↑ast)/not_quote
- ast ← ↑1↓ast
+ ast ← 2⊃ast
  →0
 not_quote:
  →((S'quasiquote')≢↑ast)/not_quasiquote
- ast ← quasiquote ↑1↓ast
+ ast ← quasiquote 2⊃ast
  →tco
 not_quasiquote:
  →((S'defmacro!')≢↑ast)/not_defmacro
- x ← env EVAL ⊃ast[3]
+ x ← env EVAL 3⊃ast
  →(macrop x)/already_macro
  (↑x) ← '''MACRO''⊢',↑x
 already_macro:
- env env_set ast[2], ⊂x
+ env env_set (2⊃ast) x
  ast ← x
  →0 
 not_defmacro:
  →((S'macroexpand')≢↑ast)/not_macroexpand
- ast ← env macroexpand ↑1↓ast
+ ast ← env macroexpand 2⊃ast
  →0
 not_macroexpand:
  ast ← env eval_ast ast

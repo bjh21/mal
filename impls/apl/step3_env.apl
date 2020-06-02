@@ -37,15 +37,15 @@ do_map:
 do_list:
  →(0=⍴ast)/0
  →((S'def!')≢↑ast)/not_def
- x ← env EVAL ⊃ast[3]
- env env_set ast[2], ⊂x
+ x ← env EVAL 3⊃ast
+ env env_set (2⊃ast) x
  ast ← x
  →0
 not_def:
  →((S'let*')≢↑ast)/not_let
  env ← env env_new (0 2)⍴0
- (⊂env)env_set_eval¨⊂[2]H⊃ast[2]
- ast ← env EVAL ⊃ast[3]
+ (⊂env)env_set_eval¨⊂[2]H 2⊃ast
+ ast ← env EVAL 3⊃ast
  →0
 not_let:
  ast ← env eval_ast ast
