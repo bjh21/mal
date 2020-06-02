@@ -135,7 +135,7 @@ do_catch:
  r[1;] ⎕ES ((3<⍴ast)/et)  ⍝ Re-throw if there's no catch* clause
  ast ← 3⊃ast
  →((101 1)≡et)/native_exception
- current_exception ← H((K'em') r[1;] (K'et') et)
+ current_exception ← H((K'message') r[1;] (K'et') et)
 native_exception:
  env ← env env_new (1 2)⍴(2⊃ast) current_exception
  ast ← 3⊃ast
@@ -187,7 +187,7 @@ loop: (rc et r) ← ⎕EC '⎕ ← rep readline ''user> '''
  →(0≠rc)/loop
  →((1 17)≡et)/0 ⍝ Exit on interrupt
  →((101 1)≡et)/native_exception
- current_exception ← H((K'em') r[1;] (K'et') et)
+ current_exception ← H((K'message') r[1;] (K'et') et)
 native_exception:
  'Uncaught exception: ',pr_str current_exception
  →loop
