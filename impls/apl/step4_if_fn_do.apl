@@ -37,31 +37,29 @@ do_map:
  →0
 do_list:
  →(0=⍴ast)/0
- →((S'def!')≢↑ast)/not_def
+ →((⊂↑ast)≡¨S¨'def!' 'let*' 'do' 'if' 'fn*')/E_def E_let E_do E_if E_fn
+ →E_apply
+E_def:
  x ← env EVAL 3⊃ast
  env env_set (2⊃ast) x
  ast ← x
  →0
-not_def:
- →((S'let*')≢↑ast)/not_let
+E_let:
  env ← env env_new (0 2)⍴0
  (⊂env)env_set_eval¨⊂[2]H 2⊃ast
  ast ← env EVAL 3⊃ast
  →0
-not_let:
- →((S'do')≢↑ast)/not_do
+E_do:
  ast ← ↑¯1↑env eval_ast 1↓ast
  →0
-not_do:
- →((S'if')≢↑ast)/not_if
+E_if:
  ast ← ast,⊂nil ⍝ Provide a default 'else' form
  ast ← env EVAL(3+(⊂env EVAL 2⊃ast)∈false nil)⊃ast
  →0
-not_if:
- →((S'fn*')≢↑ast)/not_fn
+E_fn:
  ast ← (1 4)⍴('((⊃fn[1;2])env_new(⊃fn[1;3])bind args)EVAL⊃fn[1;4]'env),ast[2 3]
  →0
-not_fn:
+E_apply:
  ast ← env eval_ast ast
  fn ← ↑ast
  args ← 1↓ast
