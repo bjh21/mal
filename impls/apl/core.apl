@@ -82,7 +82,7 @@ core_ns ← core_ns, 'with-meta'   'error ''with-meta not implemented'''
 core_ns ← core_ns, 'fn?'         'B fnp↑args'
 core_ns ← core_ns, 'string?'     'B stringp↑args'
 core_ns ← core_ns, 'number?'     'B numberp↑args'
-core_ns ← core_ns, 'seq'         'error ''seq not implemented'''
+core_ns ← core_ns, 'seq'    '↑(↑0=⍴,↑args)(stringp↑args)1/nil(,¨↑args)(,↑args)'
 core_ns ← core_ns, 'conj'        'error ''conj not implemented'''
 core_ns ← core_ns, 'macro?'      'B macrop↑args'
 
