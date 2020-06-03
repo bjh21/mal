@@ -69,7 +69,7 @@ again:
  env env_set key value
 ∇
 
-∇ast←env EVAL ast; op; args; fn; rc; et; r
+∇ast←env EVAL ast; x; args; fn; rc; et; r
 tco:
  →(listp ast)/do_list
 not_list:

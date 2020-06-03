@@ -55,7 +55,7 @@ do_splice:
  env env_set key value
 ∇
 
-∇ast←env EVAL ast; op; args; fn
+∇ast←env EVAL ast; x; args; fn
 tco:
  →(listp ast)/do_list
  ast ← env eval_ast ast
