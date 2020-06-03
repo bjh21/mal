@@ -116,7 +116,7 @@ not_quasiquote:
  →((S'defmacro!')≢↑ast)/not_defmacro
  x ← env EVAL 3⊃ast
  →(macrop x)/already_macro
- (↑x) ← '''MACRO''⊢',↑x
+ (↑x) ← (↑x),'⍝MACRO'
 already_macro:
  env env_set (2⊃ast) x
  ast ← x
