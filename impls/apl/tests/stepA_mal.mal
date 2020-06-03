@@ -1,0 +1,25 @@
+;; Testing APL interop
+
+(apl-eval "7")
+;=>7
+
+(apl-eval "'77'")
+;=>"77"
+
+(apl-eval "7 8 9")
+;=>(7 8 9)
+
+(apl-eval "⌽4 5 6")
+;=>(6 5 4)
+
+(apl-eval "⌽↑args" '("plip" :wibble snooze))
+;=>(snooze :wibble "plip")
+
+(apl-eval "⎕←↑args" "hello")
+;/hello
+;=>"hello"
+
+;; Passing a non-mal value through a mal variable
+(def! x (apl-eval "3 3⍴args" 11 12 13 21 22 23 31 32 33))
+(apl-eval "(↑args)[2;3]" x)
+;=>23

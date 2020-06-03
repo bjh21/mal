@@ -85,6 +85,7 @@ core_ns ← core_ns, 'number?'     'B numberp↑args'
 core_ns ← core_ns, 'seq'    '↑(↑0=⍴,↑args)(stringp↑args)1/nil(,¨↑args)(,↑args)'
 core_ns ← core_ns, 'conj'        'error ''conj not implemented'''
 core_ns ← core_ns, 'macro?'      'B macrop↑args'
+core_ns ← core_ns, 'apl-eval'    '(1↑args)apply(1↓args)'
 
 core_ns ← H core_ns
 core_ns[;1] ← S ¨core_ns[;1]
