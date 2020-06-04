@@ -109,8 +109,7 @@ evaluate:
 
 ∇ch ← unescape1 ch
  ⍝⍝ process a single \-escape
- →('n'≠ch)/0  ⍝ Most characters map to themselves
- ch ← ⎕UCS 10 ⍝ But 'n' becomes LF
+ ch ← (⎕IO+'n'=ch)⊃ch(⎕UCS 10) ⍝ 'n' becomes LF; all others pass through
 ∇
 
 ∇str ← unescape token; bsidx
