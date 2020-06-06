@@ -43,17 +43,12 @@ atom:
  →0
 ∇
 
-∇escaped ← escape1 ch
- ⍝⍝ \-escape a single character
- escaped ← '\',ch
- → (ch≠⎕UCS 10)/0
- escaped ← '\n'
-∇
-
-∇token ← escape str; rpos
+∇token ← escape str; classes
  ⍝⍝ \-escape the required characters of str
- rpos ← str∈('\"',⎕UCS 10)
- (rpos/str) ← escape1¨rpos/str
+ classes ← ('\"',⎕UCS 10)⍳str
+ ((classes=1)/str) ← ⊂'\\'
+ ((classes=2)/str) ← ⊂'\"'
+ ((classes=3)/str) ← ⊂'\n'
  token ← ∈str
 ∇
 
