@@ -80,7 +80,7 @@ E_do:
  ast ← ↑¯1↑ast
  →tco
 E_if:
- ast ← (3+(⊂env EVAL 2⊃ast)∈false nil)⊃ast,⊂nil
+ ast ← (3+(⊂env EVAL 2⊃ast)∊false nil)⊃ast,⊂nil
  →tco
 E_fn:
  ast ← 1 4⍴('((⊃fn[1;2])env_new(⊃fn[1;3])bind args)EVAL⊃fn[1;4]'env),ast[2 3]

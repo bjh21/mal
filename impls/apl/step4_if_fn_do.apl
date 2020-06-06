@@ -53,7 +53,7 @@ E_do:
  ast ← ↑¯1↑env eval_ast 1↓ast
  →0
 E_if:
- ast ← env EVAL(3+(⊂env EVAL 2⊃ast)∈false nil)⊃ast,⊂nil
+ ast ← env EVAL(3+(⊂env EVAL 2⊃ast)∊false nil)⊃ast,⊂nil
  →0
 E_fn:
  ast ← 1 4⍴('((⊃fn[1;2])env_new(⊃fn[1;3])bind args)EVAL⊃fn[1;4]'env),ast[2 3]

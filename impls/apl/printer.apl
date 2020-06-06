@@ -26,10 +26,10 @@ number:
  →0
 seq:
  delim ← ↑((listp form),(vectorp form),(mapp form)) / '()' '[]' '{}'
- str ← delim[1],(1↓∈' ',[1.5]pr_str¨,form),delim[2]
+ str ← delim[1],(1↓∊' ',[1.5]pr_str¨,form),delim[2]
  →0
 string:
- → (∼print_readably)/symbol
+ → (~print_readably)/symbol
  str ← '"',(escape ,form),'"'
  →0
 symbol:
@@ -49,7 +49,7 @@ atom:
  ((classes=1)/str) ← ⊂'\\'
  ((classes=2)/str) ← ⊂'\"'
  ((classes=3)/str) ← ⊂'\n'
- token ← ∈str
+ token ← ∊str
 ∇
 
 )SAVE

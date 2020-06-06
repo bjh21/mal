@@ -118,7 +118,7 @@ equal underbar | `≡`    | U+2261 IDENTICAL TO
 slash          | `/`    | U+002F SOLIDUS
 down tack jot  | `⍎`    | U+234E APL FUNCTIONAL SYMBOL DOWN TACK JOT
 up tack jot    | `⍕`    | U+2355 APL FUNCTIONAL SYMBOL UP TACK JOT
-epsilon        | `∈`    | U+2208 ELEMENT OF
+epsilon        | `∊`    | U+220A SMALL ELEMENT OF
 down arrow     | `↓`    | U+2193 DOWNWARDS ARROW
 comma bar      | `⍪`    | U+236A APL FUNCTIONAL SYMBOL COMMA BAR
 overbar        | `¯`    | U+00AF MACRON
@@ -128,7 +128,7 @@ up caret       | `∧`	| U+2227 LOGICAL AND
 down caret     | `∨`	| U+2228 LOGICAL OR
 iota           | `⍳`    | U+2373 APL FUNCTIONAL SYMBOL IOTA
 equal slash    | `≠`    | U+2260 NOT EQUAL TO
-tilde          | `∼`    | U+223C TILDE OPERATOR
+tilde          | `~`    | U+007E TILDE
 slash bar      | `⌿`    | U+233F APL FUNCTIONAL SYMBOL SLASH BAR
 
 If you want to run it on a different APL implementation, you may need

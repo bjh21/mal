@@ -49,13 +49,13 @@ do_splice:
 
 ∇result ← env is_macro_call ast
  result ← (listp ast)∧(symbolp ↑ast)∧(0≠↑⍴(env env_find ↑ast))
- →(∼result)/0
+ →(~result)/0
  result ← (macrop env env_get ↑ast)
 ∇
 
 ∇ast ← env macroexpand ast; fn
 again:
- →(∼env is_macro_call ast)/0
+ →(~env is_macro_call ast)/0
  fn ← env env_get ↑ast
  args ← 1↓ast
  ast ← ⍎↑fn
@@ -78,7 +78,7 @@ not_list:
 do_list:
  →(0=⍴ast)/0
  ast ← env macroexpand ast
- →(∼listp ast)/not_list
+ →(~listp ast)/not_list
  →((⊂↑ast)≡¨S¨'def!' 'let*' 'do' 'if' 'fn*')/E_def E_let E_do E_if E_fn
  →((⊂↑ast)≡¨S¨'quote' 'quasiquote')/E_quote E_quasiquote
  →((⊂↑ast)≡¨S¨'defmacro!' 'macroexpand' 'try*')/E_defmacro E_macroexpand E_try
@@ -98,7 +98,7 @@ E_do:
  ast ← ↑¯1↑ast
  →tco
 E_if:
- ast ← (3+(⊂env EVAL 2⊃ast)∈false nil)⊃ast,⊂nil
+ ast ← (3+(⊂env EVAL 2⊃ast)∊false nil)⊃ast,⊂nil
  →tco
 E_fn:
  ast ← 1 4⍴('((⊃fn[1;2])env_new(⊃fn[1;3])bind args)EVAL⊃fn[1;4]'env),ast[2 3]
@@ -111,7 +111,7 @@ E_quasiquote:
  →tco
 E_defmacro:
  x ← env EVAL 3⊃ast
- (↑x) ← (↑x),(∼macrop x)/'⍝MACRO'
+ (↑x) ← (↑x),(~macrop x)/'⍝MACRO'
  env env_set (2⊃ast) x
  ast ← x
  →0 

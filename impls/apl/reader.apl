@@ -77,7 +77,7 @@ do_deref:
  list ← ⍳0
  loop:
   token ← reader_peek
-  → ((⊂,token)∈(,')')(,']')(,'}'))/done
+  → ((⊂,token)∊(,')')(,']')(,'}'))/done
   form ← read_form
   list ← list,⊂form
  → loop
@@ -89,7 +89,7 @@ do_deref:
  ⍝⍝ extract a number, string, symbol, or keyword from the reader
  token ← reader_next
  → (⍴ '^-?[0-9]+$' ⎕RE token)/evaluate
- → ((⊂token) ∈ 'true' 'false' 'nil')/evaluate
+ → ((⊂token) ∊ 'true' 'false' 'nil')/evaluate
  → (':"'=↑token)/keyword,string
  
  atom ← S token
@@ -113,7 +113,7 @@ evaluate:
  qbs ← >/¨⌽¨,\'\'=str                 ⍝ 1 for each quoting '\' in token.
  error (¯1↑qbs)/'Unexpected end of input in string'
  (((¯1⌽qbs)∧('n'=str))/str) ← ⎕UCS 10 ⍝ Replace backlashed 'n' with LF.
- str ← (∼qbs)/str                     ⍝ Remove quoting backslashes.
+ str ← (~qbs)/str                     ⍝ Remove quoting backslashes.
 ∇
 
 )SAVE
