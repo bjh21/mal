@@ -107,20 +107,13 @@ evaluate:
  atom ← ⍎ token
 ∇
 
-∇ch ← unescape1 ch
- ⍝⍝ process a single \-escape
- ch ← (⎕IO+'n'=ch)⊃ch(⎕UCS 10) ⍝ 'n' becomes LF; all others pass through
-∇
-
-∇str ← unescape token; bsidx
- ⍝⍝ str is token with the \-escapes removed
- →(∼'\'∈token)/skip ⍝ Don't unescape strings without '\' (GNU APL bug)
- bsidx ← 1+(⊃ '\\.|\\$' ⎕RE['g↓'] token)[;1] ⍝ Indices of quoting '\'
- error ((⍴token)=¯1↑bsidx)/'Unexpected end of input in string'
- token[1+bsidx] ← unescape1¨token[1+bsidx]   ⍝ Replace escaped chars
- token[bsidx] ← ⊂''			     ⍝ Strip backslashes
-skip:
- str ← ∈token 				     ⍝ Flatten
+∇str ← unescape str; qbs
+ ⍝⍝ resolve \-escapes in str
+ →(0=⍴str)/0                          ⍝ Don't try to process an empty string.
+ qbs ← >/¨⌽¨,\'\'=str                 ⍝ 1 for each quoting '\' in token.
+ error (¯1↑qbs)/'Unexpected end of input in string'
+ (((¯1⌽qbs)∧('n'=str))/str) ← ⎕UCS 10 ⍝ Replace backlashed 'n' with LF.
+ str ← (∼qbs)/str                     ⍝ Remove quoting backslashes.
 ∇
 
 )SAVE
